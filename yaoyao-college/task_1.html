@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>task 1</title>
+		<style type="text/css">
+			body{
+				font: 18px/1.5 "微软雅黑",helvetica monaco;
+				color: #222;
+			}
+			div#inner-box{
+				float: left;
+			}
+			p{
+				margin: 4px 0;
+				font-size: .8em;
+				color: #999;
+			}
+			input{
+				font: inherit;
+				line-height:2em;
+				border-radius: 0.2em;
+			}
+			input[type="text"]{
+				width: 200px;
+				box-sizing: border-box;
+				padding: 0;
+				border: 1px solid #aaa;
+			}
+			input[type="button"]{
+				width: 60px;
+				background-color: cornflowerblue;
+				border: 1px solid dodgerblue;
+				color: white;
+			}
+			input[type="button"]:hover{
+				cursor: pointer;
+			}
+			label{
+				line-height:2em ;
+				float: left;
+				margin-right: 20px;
+			}
+			li:after{
+				content: "";
+				display: block;
+				height: 0;
+				clear: both;
+			}
+			div.error input[type="text"]{
+				border: 1px solid red;
+				box-shadow: 0 0 2px red;
+			}
+			div.error p{
+				color: red;
+			}
+			
+			div.success input[type="text"]{
+				border: 1px solid limegreen;
+				box-shadow: 0 0 2px limegreen;
+			}
+			div.success p{
+				color: limegreen;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="" method="post" >
+			<label for="name">汉字</label>
+			<div id="inner-box">
+				<input  type="text" name="name" id="name" />
+				<input type="button" id="btn" value="验证" />
+				<p>每个汉字，中文符号长度为2</p>
+			</div>	
+		</form>
+			
+		
+		<script type="text/javascript">
+			
+				var btn = document.getElementById("btn");
+				
+				
+				function validate (){
+					
+					var inputValue = document.getElementById("name").value;
+					var p = document.getElementsByTagName("p")[0]
+					var innerBox = document.getElementById("inner-box")
+					
+					if( inputValue == "" ){
+						innerBox.className += " error";
+						p.innerHTML  = "不能为空！";
+						return false;
+					}
+					
+					var length = inputValue.match(/[\u4e00-\u9fa5]*/g)
+					.filter(function(el){
+						if( el !== "" ) {
+							return true ;
+						}
+					})
+					.join("")
+					.concat(inputValue)
+					.length;
+					if(length >16 || length < 4){
+						innerBox.className = " error";
+						p.innerHTML  = "格式错误！";
+						return false
+					}
+					innerBox.className = "success";
+					p.innerHTML  = "正确！";
+				}
+
+				btn.onclick = function(){
+					validate();
+				}			
+			
+			
+		</script>
+		
+	</body>
+</html>

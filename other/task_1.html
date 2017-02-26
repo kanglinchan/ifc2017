@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<title>task 1</title>
+	<style type="text/css">
+		body{
+			font: 18px/1.5 "微软雅黑",helvetica monaco;
+			color: #222;
+		}
+		ul{
+
+			list-style: none;
+			padding-left: 0;
+		}
+		li{
+			padding: 15px;
+		}
+		div{
+			float: left;
+		}
+		p{
+			margin: 4px 0;
+			font-size: .8em;
+			color: #999;
+		}
+		input{
+			height:2.5em;
+			border-radius: 0.2em;
+		}
+		input[type="text"]{
+			width: 200px;
+			box-sizing: border-box;
+			padding: 0;
+			border: 1px solid #aaa;
+		}
+		input[type="button"]{
+			width: 60px;
+			background-color: cornflowerblue;
+			border: 1px solid dodgerblue;
+			color: white;
+		}
+		input[type="button"]:hover{
+			cursor: pointer;
+		}
+		label{
+			float: left;
+			margin-right: 20px;
+		}
+		li:after{
+			content: "";
+			display: block;
+			height: 0;
+			clear: both;
+		}
+	</style>
+</head>
+<body>
+	<ul>
+		<li>
+			<label for="number">数字</label>
+			<div>
+				<input type="text" name="number" id="number" value="" />
+				<input type="button" name="" id="vi" value="验证" />
+				<p>字符数为4~16位</p>
+			</div>
+		</li>
+		<li>
+			<label for="name">名称</label>
+			<div>
+				<input type="text" name="name" id="name" value="" />
+				<input type="button" name="" id="" value="验证" />
+				<p>每个英文字母、数字、英文符号长度为1</p>
+			</div>
+			
+		</li>
+		<li>
+			<label for="chinese">汉字</label>
+			<div>
+				<input type="text" name="chinese" id="chinese" value="" />
+				<input type="button" name="" id="" value="验证" />
+				<p>每个汉字，中文符号长度为2</p>
+			</div>	
+		</li>
+	</ul>
+</body>
+<script type="text/javascript">
+	
+	function validate(){
+		this.list = [];
+	}
+	validate.prototype = {
+		addRole:function(field,callBack){
+			
+		}
+	}
+	
+	
+	
+	
+	
+</script>
+
+</html>
