@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>task_2</title>
+		<style type="text/css">
+			body{
+				font: 14px/1.5 "微软雅黑", helvetica, monaco;
+			}
+			ul{
+				list-style: none;
+				padding-left: 0;
+				width: 600px;
+				margin: 40px auto;
+			}
+			li{
+				height: 70px;
+				
+			}
+			label{
+				display: block;
+				float: left;
+				width: 180px;
+				text-align: right;
+				line-height: 2em;
+				color: #222;
+			}
+			div.inner_box{
+				float: left;
+				margin-left: 20px;
+				width: 398px;
+			}
+			p{
+				margin: 8px auto;
+				font-size: 12px;
+				color: #999;
+			}
+			input{
+				border: 1px solid #aaa;
+				border-radius: 3px;
+				width: 100%;
+				line-height: 2em;
+			}
+			input[type="text"]{
+				text-indent: 1em;
+			}
+			input[type="submit"]{
+				width: 60px;
+				background: dodgerblue;
+				border: 1px solid cornflowerblue;
+				float: right;
+				color: white;
+			}
+			div.success.inner_box input{
+				border: 1px solid limegreen;
+			}
+			div.success p{
+				color: limegreen;
+			}
+			
+			div.inner_box.failed input{
+				border: 1px solid red;
+			}
+			div.inner_box.failed p{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<form action="" method="post" id="form">
+			<ul>
+				<li>
+					<label for="name">名称</label>
+					<div class="inner_box">
+						<input type="text" name="name" id="name" value="sss"/>
+						<p></p>
+					</div>
+				</li>
+				<li>
+					<label for="password">密码</label>
+					<div class="inner_box">
+						<input type="password" name="password" id="password" />
+						<p></p>
+					</div>
+				</li>
+				<li>
+					<label for="confrim_pw">确认密码</label>
+					<div class="inner_box">
+						<input type="password" name="confrim_pw" id="confrim_pw" />
+						<p></p>
+					</div>
+				</li>
+				<li>
+					<label for="email">电子邮箱</label>
+					<div class="inner_box">
+						<input type="text" name="email" id="email" />
+						<p></p>
+					</div>
+				</li>
+				<li>
+					<label for="phone">手机</label>
+					<div class="inner_box">
+						<input type="text" name="phone" id="phone" />
+						<p></p>
+					</div>
+				</li>
+				<li>
+						<input type="submit"  id="" value="提交" />
+				</li>
+			</ul>
+			
+		</form>
+		
+		<script type="text/javascript">
+			
+			function Validate () {
+				//记录需要检验的字段
+				this.ruleCache = {};
+				//保存检验方法
+				this.ValidateList = {
+					required:function(elment,msg){
+						var msg = msg || "不能为空";
+						if( elment.value == ""){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确1"};
+					},
+					max:function(elment ,maxValue, msg){
+						var msg = msg ||"不能超过"+ maxValue+"位";
+						if( elment.value.length > maxValue ){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确"};
+					},
+					min:function(elment ,minValue, msg){
+						var msg = msg ||"不能少于"+ minValue+"位";
+						if( elment.value.length < minValue ){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确"};
+					},
+					confrim:function(element,elementId, msg){
+						var msg = msg || "密码不一致"
+						var targetValue = document.getElementById(elementId).value;
+						if( element.value != targetValue ){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确"};
+					},
+					email:function(element,msg){
+						var msg = msg || "电子邮箱格式正确";
+						console.dir(element.value)
+						if(! /^[\w\_]+\@[\w\_]+(\.[a-zA-Z]+)+/i.test(element.value )){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确"};
+					},
+					phone:function(element,msg){
+						var msg = msg || "手机号码格式正确";
+						if( !(/^1\d{10}$/.test(element.value)) ){
+							return { flag:false, msg: msg }
+						}
+						return { flag:true, msg: "正确"};
+					}
+				};
+				this.addRole = function(options){
+					var field = options.field;
+					if( typeof this.ruleCache[field] == "undefined" ){
+						this.ruleCache[field] = [];
+					}
+					var rules = options.rule;
+					for( roleName in rules ){
+					var args = rules[roleName].split("|");
+					args.unshift(options.dom);
+					args.unshift( roleName );
+					var fn = function(){
+						var roleName = [].shift.call(arguments);
+						var ctx_args =arguments;
+						var ctx = this;
+						return function(){
+							return ctx.ValidateList[roleName].apply(ctx, ctx_args )
+						}
+					}
+					this.ruleCache[field].push(fn.apply(this, args ));
+					}
+				};
+				this.fire = function(field){
+					var fnList = this.ruleCache[field];
+					for( var i=0 ,fn; fn = fnList[i++] ; ){
+						var result = fn();
+						if( !result.flag ){
+							return result;
+						}
+					}
+					return result;
+				};
+				this.fireAll = function(){
+					for( var field in this.ruleCache ){
+						var fnList = this.ruleCache[field];
+						for( var i=0 ,fn; fn = fnList[i++] ; ){
+							fn();
+						}
+					}
+				}
+			}
+
+			var validate = new Validate();
+			
+			var formEl = document.getElementById("form");
+			
+			//绑定focus事件
+			formEl.name.addEventListener("focus",setRule.bind(null,{
+				dom: formEl.name,
+				field:"name",
+				rule:{
+					required:"必填",
+					min:"4|不能小于4位",
+					max:"16|不能大于16位"
+				},
+				msg:"必填，4-16位",
+				
+			}));
+			//密码
+			formEl.password.addEventListener("focus",setRule.bind(null,{
+				dom: formEl.password,
+				field:"password",
+				rule:{
+					required:"必填",
+					min:"4#不能小于4位",
+					max:"20#不能大于20位"
+				},
+				msg:"必填，4-20位",
+			}));
+			//确认
+			formEl.confrim_pw.addEventListener("focus",setRule.bind(null,{
+				dom: formEl.confrim_pw,
+				field:"confrim_pw",
+				rule:{
+					required:"必填",
+					min:"4|不能小于4位",
+					max:"20|不能大于20位",
+					confrim:"password|密码不一致"
+				},
+				msg:"必填，4-20位",
+			}));
+			formEl.email.addEventListener("focus",setRule.bind(null,{
+				dom: formEl.email,
+				field:"email",
+				rule:{
+					email:"格式错误"
+				},
+				msg:"填写电子邮箱格式",
+			}));
+			formEl.phone.addEventListener("focus", setRule.bind(null,{
+				dom: formEl.phone,
+				field:"phone",
+				rule:{
+					phone:"手机格式错误"
+				},
+				msg:"填写手机格式"
+			}));
+//			
+			//绑定blur事件
+			formEl.name.addEventListener("blur",setResult.bind(null,"name"));
+			formEl.password.addEventListener("blur",setResult.bind(null,"password"));
+			formEl.confrim_pw.addEventListener("blur",setResult.bind(null,"confrim_pw"));
+			formEl.email.addEventListener("blur",setResult.bind(null,"email"));
+			formEl.phone.addEventListener("blur",setResult.bind(null,"phone"));
+			
+			
+			
+			
+			
+			//设置结果
+			function setResult ( field, event ){
+				console.dir( field )
+				 var rst = validate.fire( field );
+				 var p = event.target.nextElementSibling;
+				 var parentEl = event.target.parentElement;
+				 p.innerHTML = rst.msg;
+				 if( rst.flag ){
+				 	parentEl.className = "inner_box success";
+				 }else{
+				 	parentEl.className = "inner_box failed";
+				 }
+			}
+			
+			//设置规则
+			function setRule(opt,event){
+				var p = event.target.nextElementSibling;
+				validate.addRole( opt )
+				p.innerHTML = opt.msg;
+			}
+			
+		</script>
+	</body>
+</html>
