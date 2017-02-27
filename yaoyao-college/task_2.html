@@ -114,57 +114,63 @@
 		<script type="text/javascript">
 			
 			function Validate () {
+				//是否可以提交
+				this.status = true;
 				//记录需要检验的字段
 				this.ruleCache = {};
 				//保存检验方法
 				this.ValidateList = {
-					required:function(elment,msg){
+					required:function(element,msg){
 						var msg = msg || "不能为空";
-						if( elment.value == ""){
-							return { flag:false, msg: msg }
+						if( element.value == ""){
+							return { flag:false, msg: msg, dom:element }
 						}
-						return { flag:true, msg: "正确1"};
+						return { flag:true, msg: "正确1", dom:element };
 					},
-					max:function(elment ,maxValue, msg){
+					max:function(element ,maxValue, msg){
 						var msg = msg ||"不能超过"+ maxValue+"位";
-						if( elment.value.length > maxValue ){
-							return { flag:false, msg: msg }
+						if( element.value.length > maxValue ){
+							return { flag:false, msg: msg, dom:element }
 						}
-						return { flag:true, msg: "正确"};
+						return { flag:true, msg: "正确", dom:element};
 					},
-					min:function(elment ,minValue, msg){
+					min:function(element ,minValue, msg){
 						var msg = msg ||"不能少于"+ minValue+"位";
-						if( elment.value.length < minValue ){
-							return { flag:false, msg: msg }
+						if( element.value.length < minValue ){
+							return { flag:false, msg: msg, dom:element }
 						}
-						return { flag:true, msg: "正确"};
+						return { flag:true, msg: "正确", dom:element};
 					},
 					confrim:function(element,elementId, msg){
 						var msg = msg || "密码不一致"
 						var targetValue = document.getElementById(elementId).value;
 						if( element.value != targetValue ){
-							return { flag:false, msg: msg }
+							return { flag:false, msg: msg, dom:element }
 						}
-						return { flag:true, msg: "正确"};
+						return { flag:true, msg: "正确", dom:element };
 					},
 					email:function(element,msg){
 						var msg = msg || "电子邮箱格式正确";
 						console.dir(element.value)
 						if(! /^[\w\_]+\@[\w\_]+(\.[a-zA-Z]+)+/i.test(element.value )){
-							return { flag:false, msg: msg }
+							if( element.value !="" ){
+								return { flag:false, msg: msg, dom:element }
+							}
 						}
-						return { flag:true, msg: "正确"};
+						return { flag:true, msg: "正确", dom:element};
 					},
 					phone:function(element,msg){
 						var msg = msg || "手机号码格式正确";
 						if( !(/^1\d{10}$/.test(element.value)) ){
-							return { flag:false, msg: msg }
+							if( element.value !="" ){
+								return { flag:false, msg: msg, dom:element }
+							}
 						}
-						return { flag:true, msg: "正确"};
+						return { flag:true, msg: "正确", dom:element};
 					}
 				};
-				this.addRole = function(options){
-					var field = options.field;
+				this.addRule = function(field, options){
+					//var field = options.field;
 					if( typeof this.ruleCache[field] == "undefined" ){
 						this.ruleCache[field] = [];
 					}
@@ -183,10 +189,11 @@
 					}
 					this.ruleCache[field].push(fn.apply(this, args ));
 					}
+					return this;
 				};
 				this.fire = function(field){
 					var fnList = this.ruleCache[field];
-					for( var i=0 ,fn; fn = fnList[i++] ; ){
+					for( var i = 0 ,fn; fn = fnList[i++] ; ){
 						var result = fn();
 						if( !result.flag ){
 							return result;
@@ -194,102 +201,122 @@
 					}
 					return result;
 				};
-				this.fireAll = function(){
-					for( var field in this.ruleCache ){
-						var fnList = this.ruleCache[field];
-						for( var i=0 ,fn; fn = fnList[i++] ; ){
-							fn();
-						}
-					}
-				}
 			}
 
-			var validate = new Validate();
-			
+			var validate = new Validate();			
 			var formEl = document.getElementById("form");
 			
-			//绑定focus事件
-			formEl.name.addEventListener("focus",setRule.bind(null,{
-				dom: formEl.name,
-				field:"name",
+			
+			validate
+			.addRule( "name",{
+				dom:formEl.name,
 				rule:{
 					required:"必填",
 					min:"4|不能小于4位",
 					max:"16|不能大于16位"
-				},
-				msg:"必填，4-16位",
-				
-			}));
-			//密码
-			formEl.password.addEventListener("focus",setRule.bind(null,{
+				}
+			} )
+			.addRule("password" ,{
 				dom: formEl.password,
-				field:"password",
 				rule:{
 					required:"必填",
 					min:"4#不能小于4位",
 					max:"20#不能大于20位"
-				},
-				msg:"必填，4-20位",
-			}));
-			//确认
-			formEl.confrim_pw.addEventListener("focus",setRule.bind(null,{
+				}
+			})
+			.addRule("confrim_pw",{
 				dom: formEl.confrim_pw,
-				field:"confrim_pw",
 				rule:{
 					required:"必填",
 					min:"4|不能小于4位",
 					max:"20|不能大于20位",
 					confrim:"password|密码不一致"
-				},
-				msg:"必填，4-20位",
-			}));
-			formEl.email.addEventListener("focus",setRule.bind(null,{
+				}
+			})
+			.addRule("email",{
 				dom: formEl.email,
 				field:"email",
 				rule:{
+					required:"必填",
 					email:"格式错误"
-				},
-				msg:"填写电子邮箱格式",
-			}));
-			formEl.phone.addEventListener("focus", setRule.bind(null,{
+				}
+			})
+			.addRule("phone",{
 				dom: formEl.phone,
-				field:"phone",
 				rule:{
-					phone:"手机格式错误"
-				},
-				msg:"填写手机格式"
-			}));
-//			
-			//绑定blur事件
-			formEl.name.addEventListener("blur",setResult.bind(null,"name"));
-			formEl.password.addEventListener("blur",setResult.bind(null,"password"));
-			formEl.confrim_pw.addEventListener("blur",setResult.bind(null,"confrim_pw"));
-			formEl.email.addEventListener("blur",setResult.bind(null,"email"));
-			formEl.phone.addEventListener("blur",setResult.bind(null,"phone"));
+					email:"格式错误"
+				}
+			})
 			
 			
-			
-			
+			//绑定focus事件
+			formEl.name.addEventListener("focus",function(event){
+					setMsg.call( this, "必填，4-16位", event);
+			});
+			formEl.password.addEventListener("focus",function(event){
+					setMsg.call( this, "必填，6-26位", event);
+			});
+			formEl.confrim_pw.addEventListener("focus",function(event){
+					setMsg.call( this, "填写电子邮箱格式", event);
+			});
+			formEl.email.addEventListener("focus",function(event){
+					setMsg.call( this, "必填，4-16位", event);
+			});
+	
+//			//绑定blur事件
+			formEl.name.addEventListener("blur",function(){
+				getResult.call(this,"name");
+			});
+			formEl.password.addEventListener("blur",function(){
+				getResult.call(this,"password")
+			});
+			formEl.confrim_pw.addEventListener("blur",function(){
+				getResult.call(this,"confrim_pw")
+			});
+			formEl.email.addEventListener("blur",function(){
+				getResult.call(this,"email")
+			});
+			formEl.phone.addEventListener("blur",function(){
+				getResult.call(this,"phone")
+			});
+
+			//提交		
+			formEl.addEventListener("submit",function(event){
+					//设置正确
+					validate.status = true;
+					getResult.call(formEl.name, "name")
+					getResult.call(formEl.password, "password");
+					getResult.call(formEl.confrim_pw, "confrim_pw");
+					getResult.call(formEl.email, "email");
+					getResult.call(formEl.phone, "name");
+					if( !validate.status ){
+						event.preventDefault();
+						alert("不正确不能提交");
+					}
+					
+			})
+
 			
 			//设置结果
-			function setResult ( field, event ){
-				console.dir( field )
+			function getResult ( field ){
 				 var rst = validate.fire( field );
-				 var p = event.target.nextElementSibling;
-				 var parentEl = event.target.parentElement;
+				 var p = this.nextElementSibling;
+				 var parentEl = this.parentElement;
 				 p.innerHTML = rst.msg;
 				 if( rst.flag ){
 				 	parentEl.className = "inner_box success";
 				 }else{
 				 	parentEl.className = "inner_box failed";
+				 	//将状态设置成不能提交
+				 	validate.status = false;
+				 	
 				 }
 			}
 			
 			//设置规则
-			function setRule(opt,event){
-				var p = event.target.nextElementSibling;
-				validate.addRole( opt )
-				p.innerHTML = opt.msg;
+			function setMsg( msg ,event){
+				var p = this.nextElementSibling;
+				p.innerHTML = msg;
 			}
 			
 		</script>
