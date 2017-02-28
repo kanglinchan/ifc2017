@@ -1,0 +1,241 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>task_3</title>
+		<style type="text/css">
+			body{
+				font: 16px/1.5 "微软雅黑" ,helvetica ,monospace;
+				color: #222;
+			}
+			div.container{
+				width: 600px;
+				margin: 200px auto;
+			}
+			div.container div.select div{
+				width: 50%;
+				display: block;
+				float: left;
+				text-align: center;
+			}
+			input[type="radio"]{
+				display: none;
+
+			}
+			div.container div.select label{
+				cursor: pointer;
+			}
+			div.container div.select label:before{
+				content:"";
+				display: inline-block;
+				width: 1em;
+				height: 1em;
+				border: 1px solid #aaa;
+				border-radius: 50%;
+				vertical-align: -0.2em;
+				margin-right: 0.5em;
+			}
+
+			div.container div.select input:checked + label:before{
+				border-color: dodgerblue;
+				background-image: radial-gradient(dodgerblue 40%, transparent 50%);
+			}
+			
+			div.container div.select{
+				padding: 10px 0;
+			}
+			div.container div.select::after{
+				content: "";
+				display: block;
+				clear: both;
+			}
+			div.content {
+				margin-top: 20px;
+			}
+			div.content label{
+				width: 100px;
+				display: inline-block;
+				text-align: center;
+			}
+			div.content input,
+			div.container select{
+				height: 2em;
+				line-height: 2em;
+				border-radius: 0.2em;
+				border: 1px solid #aaa;
+			}
+			div.content div.not_in input{
+				width: 450px;
+			}
+			div.content select[name="city"]{
+				width: 150px;
+			}
+			div.content select[name="school"]{
+				width: 250px;
+				margin-left: 50px;
+			}
+			div.content div.in,div.content div.not_in{
+				display: none;
+			}
+			div.content.not_in_active div.not_in, 
+			div.content.in_active div.in{
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<form action="" >
+				<div class="select">
+					<div class="left">
+						<input type="radio" name="location"  id="in" value="in" />
+						<label for="in" >在校生</label>
+					</div>
+					<div class="right">		
+						<input type="radio" name="location" id="not_in" value="not_in" />
+						<label for="not_in" >非在学校生</label>
+					</div>
+				</div>
+				<div class="content">
+					<div class="not_in">
+						<label for="institution">单位</label>
+						<input type="text" id="institution" name="institution" />
+					</div>
+					<div class="in">
+						<label for="city">学校</label>
+						<select name="city" id="city">
+						</select>
+						<select name="school">
+						</select>
+					</div>
+				</div>
+			</form>
+		</div>
+		
+		
+		<script type="text/javascript">
+			function SelectForm(){
+				this.location = "";
+				this.currentCity = "";
+				this.currentSchool = "";
+				this.dom = {};
+				this.cityList = [
+					{
+						"cityValue":"beijing",
+						"cityName":"北京",
+						"school":[
+							{"name":'北京大学',"value":"peiking University"},
+							{"name":'北京中心',"value":"beijing middle school"},
+							{"name":'北京小学',"value":"beijing primary school"}
+						]
+					},
+					{
+						"cityValue":"pingrang",
+						"cityName":"平壤",
+						"school":[
+							{"name":'平壤大学',"value":"pingrang univaersity"},
+							{"name":'平壤中学',"value":"pingrang middle school"},
+							{"name":'平壤小学',"value":"pingrang primary school"}
+						]
+					},
+					{
+						"cityValue": "guangzhou",
+						"cityName": "广州",
+						"school":[
+							{"name":'广州大学',"value":"peiking univaersity"},
+							{"name":'广州中心',"value":"peiking middle school"},
+							{"name":'广州小学',"value":"peiking primary school"}
+						]
+					}
+				];
+			}
+			
+			SelectForm.prototype = {
+				init:function( opt ){
+					this.currentCity = opt.defaultCity || "beijing";
+					this.location = opt.defaultLocation || "in";
+					this.currentSchool = opt.schoolName || "peiKing University";
+					//保存dom对象
+					var formEl = document.getElementsByTagName("form")[0];
+					this.dom['radio_in'] = document.getElementById("in");
+					this.dom['radio_not_in'] = document.getElementById("not_in");
+					this.dom['content'] = document.querySelector("div.content");
+					this.dom['notInDiv'] = document.querySelector("div.not_in");
+					this.dom['inDiv'] = document.querySelector("div.in");
+					this.dom['selectCity'] = document.querySelector("select[name='city']");
+					this.dom['selectSchool'] = document.querySelector("select[name='school']");
+					this.render();
+				},
+				
+				render:function(){
+					//设置
+					if( this.location == "not_in" ){
+						this.dom['radio_not_in'].setAttribute("checked","");
+						this.dom['content'].className = "content not_in_active";
+					}else{
+						this.dom['radio_in'].setAttribute("checked","");
+						this.dom['content'].className = "content in_active"
+
+						var 
+						cityHtml = "",
+						schoolHtml = "";
+						schoolList = [];
+						
+						//渲染城市select
+						for(var i = 0; i< this.cityList.length ;i++  ){
+							if( this.currentCity == this.cityList[i]["cityValue"] ){
+								schoolList = this.cityList[i]['school'];
+								cityHtml += "<option  selected='selected' value="+this.cityList[i]["cityValue"]+">"+this.cityList[i]["cityName"]+"</option>"
+							}else{
+								cityHtml += "<option value="+this.cityList[i]["cityValue"]+">"+this.cityList[i]["cityName"]+"</option>"
+							}		
+						}
+						this.dom['selectCity'].innerHTML = cityHtml;
+						
+						//渲染学校select
+						for(var i = 0; i< schoolList.length ;i++  ){
+							if( this.currentSchool == schoolList[i]["value"] ){
+								schoolHtml += "<option  selected='selected' value="+JSON.stringify(schoolList[i]["value"])+">"+schoolList[i]["name"]+"</option>"
+							}else{
+								schoolHtml += "<option value="+JSON.stringify( schoolList[i].value )+">"+schoolList[i]["name"]+"</option>"
+							}		
+						}
+						this.dom['selectSchool'].innerHTML = schoolHtml;
+					}
+					var self = this;
+					this.dom['radio_in'].onchange= function(){
+						self.location = "in";
+						self.render();
+					} ;
+					this.dom['radio_not_in'].onchange = function(){
+						self.location = "not_in";
+						self.render();
+					} ;
+					
+					this.dom['selectCity'].onchange = function(event){
+						self.currentCity = this.value;
+						self.render();
+					}
+					this.dom['selectSchool'].onchange = function(event){
+						self.currentSchool = this.value;
+						self.render();
+					}
+				}
+				
+			}
+			
+			
+			
+			var sf  = new SelectForm()
+			sf.init( {
+				defaultLocation: "not_in",
+				defaultCity:"guangzhou",
+				schoolName: "peiking univaersity"
+			} )
+
+			
+		</script>
+	</body>
+</html>
