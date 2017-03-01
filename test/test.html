@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<title>html</title>
 		<style type="text/css">
-			input:checked + label{
+			/*input:checked + label{
 				font-size: 200px;
 			}
 			div#box{
@@ -16,6 +16,16 @@
 				background-origin: content-box;
 				-webkit-background-origin: content-box;
 				border:1px solid black
+			}*/
+			div#box{
+				position: relative;
+				left: 0;
+				top: 0;
+				background: red;
+				width: 100px;
+				height: 100px;
+				transition: all 1s;
+				transform: rotate(0deg);
 			}
 		</style>
 	</head>
@@ -23,16 +33,40 @@
 		<div id="box">
 			
 		</div>
-		<input type="radio" name="test" checked="checked" id="11" value="" />
+		<script type="text/javascript">
+			var div = document.querySelector("div#box");
+			div.addEventListener("click",function(){
+				this.style.left = '400px';
+				this.style.top = "400px";
+				this.style.transform = "rotate(0deg)"
+			});
+			div.addEventListener("dblclick",function(){
+				this.style.left = '200px';
+				this.style.top = "200px";
+				this.style.transform = "rotate(90deg)"
+			})
+		</script>
+		
+		<!--<input type="radio" name="test" checked="checked" id="11" value="" />
 		<label for="11">11111111111</label>
 		<input type="radio" name="test"  value="" id="22" />
 		<label for="22">2222222222</label>
-		
+		-->
 		<!--https://github.com/kanglinchan/ifc2017/blob/master/yaoyao-college/task_2.html
 		
 		https://kanglinchan.github.io/ifc2017/yaoyao-college/task_2.html
 		-->
 		
-		<h1>welcome</h1>
+	<!--	<h1>welcome</h1>-->
+	
+	
+		<div>
+			
+		</div>
+	
+	
+	
+	
+	
 	</body>
 </html>

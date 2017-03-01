@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+	</head>
+			<style type="text/css">
+			.clearFix:after{
+				content: "";
+				display: block;
+				clear: both;
+			}
+			
+			div.box{
+				width: 440px;
+				height: 440px;
+				margin: 50px auto;
+			}
+			ul{
+				list-style: none;
+				padding-left: 0;
+				margin: 0;
+			}
+			li{
+				float: left;
+				text-align: center;
+				line-height: 40px;
+			}
+			div.main{
+				border: 2px solid #333;
+				width: 400px;
+				height: 400px;
+				float: left;
+				background-image: 
+					linear-gradient(transparent 39px, #aaa 1px),
+					linear-gradient(90deg, transparent 39px, #aaa 1px );
+				background-size: 40px 40px,40px 40px;
+			}		
+			ul.left li{
+				width: 36px;
+				height: 40px;
+			}
+			ul.top li{
+				width: 40px;
+				height: 36px;
+			}
+			ul.top{
+				margin-left: 40px;
+			}
+			ul.left{
+				margin: 1px 0;
+				width: 36px;
+				float: left;
+			}
+			div.input{
+				text-align: center;
+			}
+			div.input input{
+				height: 2.5em;
+				box-sizing: border-box;
+				border: 1px solid #999;	
+			}
+			div.input input[type="text"]{
+				border-top-left-radius: .3em;		
+				border-bottom-left-radius: .3em;	
+				text-indent: 1em;	
+				width: 300px;	
+			}
+			div.input input[type="button"]{
+				border-top-right-radius: .3em;		
+				border-bottom-right-radius: .3em;
+				margin-left: -1px;	
+				width: 60px;
+				cursor: pointer;		
+			}
+			div#block{
+				width: 30px;
+				height: 40px;
+				background: limegreen;
+				border-right: 10px solid lightseagreen;
+				position: absolute;
+			}
+			
+			
+		</style>
+	</head>
+	<body>	
+		<div class="box clearFix">
+			<ul class="clearFix top">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+			</ul>
+			
+			<ul class="clearFix left">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+			</ul>
+			<div class="main">
+				
+			</div>
+		</div>	
+		<div class="input">
+			<input type="text" /><input type="button" value="run" />
+		</div>
+		
+		<script type="text/javascript">
+			function DirectiveBlock(){
+				this.coorX = 1;
+				this.coorY = 1;
+				this.stepLength = 40;
+				this.dom = {
+					"container": document.querySelector("div.main")
+				}
+					
+			}
+			DirectiveBlock.prototype = {
+				"init":function(options){
+					//初始化参数
+					this.coorX = options.x || this.coorX;
+					this.coorY = options.y || this.coorY;
+					//渲染元素
+					this.render();
+					//绑定事件
+					this.dom['input'] = document.querySelector("input[type='text']");
+					this.dom['btn'] = document.querySelector("input[type='button']");
+					var self = this; //保存上下文
+					this.dom['btn'].addEventListener("click",function(){
+						self.handler( self.dom['input'].value );
+					})
+				},
+				"render":function(){
+					this.dom['block'] = document.createElement("div");
+					this.dom['block'].id = "block";
+					this.dom['container'].appendChild( this.dom['block'] );
+					this.dom['block'].style.marginLeft = ( this.coorX-1 )*40 +"px";
+					this.dom['block'].style.marginTop = ( this.coorY-1 )*40 +"px";
+				},
+				"handler":function( text ){
+					switch ( text.toUpperCase() ){
+						case "TRA LEF":
+							this.transLeft();
+					}
+				},
+				"transLeft":function(){
+					alert("fffff");
+				}
+			}
+			
+			var db = new DirectiveBlock();
+			db.init({
+				x:4,
+				y:6
+			})
+		</script>
+		
+		
+		<!--TRA LEF：向屏幕的左侧移动一格，方向不变
+			TRA TOP：向屏幕的上面移动一格，方向不变
+			TRA RIG：向屏幕的右侧移动一格，方向不变
+			TRA BOT：向屏幕的下面移动一格，方向不变
+			MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格
+			MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格
+			MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格
+			MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
+		-->
+		
+		
+	</body>
+</html>
