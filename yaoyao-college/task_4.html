@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<style type="text/css">
+			.clearFix:after{
+				content: "";
+				display: block;
+				clear: both;
+			}
+			
+			div.box{
+				width: 440px;
+				height: 440px;
+				margin: 50px auto;
+			}
+			ul{
+				list-style: none;
+				padding-left: 0;
+				margin: 0;
+			}
+			li{
+				float: left;
+				text-align: center;
+				line-height: 40px;
+			}
+			ul.main{
+				border: 2px solid #333;
+				width: 400px;
+				float: left;
+			}		
+			ul.main li{
+				width: 39px;
+				height: 39px;
+				border-bottom: 1px solid #eee;
+				border-right: 1px solid #eee;
+			}
+			ul.left li{
+				width: 36px;
+				height: 40px;
+			}
+			ul.top li{
+				width: 40px;
+				height: 36px;
+			}
+			ul.top{
+				margin-left: 40px;
+			}
+			ul.left{
+				margin: 1px 0;
+				width: 36px;
+				float: left;
+			}
+			div.input{
+				text-align: center;
+			}
+			div.input input{
+				height: 2.5em;
+				box-sizing: border-box;
+				border: 1px solid #999;	
+			}
+			div.input input[type="text"]{
+				border-top-left-radius: .3em;		
+				border-bottom-left-radius: .3em;	
+				text-indent: 1em;	
+				width: 300px;	
+			}
+			div.input input[type="button"]{
+				border-top-right-radius: .3em;		
+				border-bottom-right-radius: .3em;
+				margin-left: -1px;	
+				width: 60px;
+				cursor: pointer;		
+			}
+			ul.main li > div{
+				height: 100%;
+				background-color: limegreen;
+				border-right: 8px solid lightseagreen;
+			}
+			/*ul.main li > div >i{
+				float: right;
+				display: block;
+				width: 8px;
+				height: 100%;
+				background-color: lightseagreen;
+				transform: rotate(0deg);
+			}*/
+			
+			ul.main li.down > div{
+				transform: rotate(90deg);
+			}
+			ul.main li.left > div{
+				transform: rotate(180deg);
+			}
+			ul.main li.up > div{
+				transform: rotate(270deg);
+			}
+			
+		</style>
+	</head>
+	<body>	
+		<div class="box clearFix">
+			<ul class="clearFix top">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+			</ul>
+			
+			<ul class="clearFix left">
+				<li>1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+				<li>5</li>
+				<li>6</li>
+				<li>7</li>
+				<li>8</li>
+				<li>9</li>
+				<li>10</li>
+			</ul>
+			
+			<ul class="clearFix main"></ul>
+		</div>	
+		<div class="input">
+			<input type="text" /><input type="button" value="run" />
+		</div>
+			
+		<script type="text/javascript">
+			//设置 0 为空白
+			// 1 ：→
+			// 2 ：↓
+			// 3 ：←
+			// 4 ：↑
+			
+			
+			function Directive(){
+				this.x = 1;
+				this.y = 1;
+				this.to = 1; //向右
+				this.dom = {
+					"container": document.querySelector("ul.main")
+				};
+				this.map = [
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+					0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+				];
+				this.swap = {
+					"left" :3,
+					"down" :2,
+					"right" :1,
+					"up":4
+				}
+			};
+			
+			Directive.prototype = {
+				"init":function( opt  ){
+					//初始化数据
+					this.x = opt.x || this.x;
+					this.y = opt.y || this.y;
+					this.to = opt.to || this.to;
+					this.currentCoor ;
+					
+					//设置初始化位置
+					this.initData();
+					
+					//渲染列表结果
+					this.render();
+					
+					//初始化dom到缓存,为dom绑定事件
+					this.dom['input'] = document.querySelector("input[type='text']");
+					this.dom['btn'] = document.querySelector("input[type='button']");
+					var self = this;
+					this.dom['btn'].addEventListener("click",function(){
+						var val = self.dom['input'].value.toUpperCase();
+							switch( val ){
+								case "GO":
+									self.go();
+									break;
+								case "TUN LEF":
+									self.turnLeft();
+									break;
+								case "TUN RIG":
+									self.turnRight();
+									break;
+								case "TUN BAC":
+									self.turnBack();
+									break;
+								default:
+									self.other();
+							}
+					});	
+				},
+				
+				"initData":function(){
+					this.currentCoor = (this.y-1)*10 + this.x-1;
+					this.map[ this.currentCoor ] = this.swap[ this.to ];
+				},
+				"render":function(){
+					var sHtml = "";
+					for( var i =0 ; i< this.map.length ; i++ ){
+						if( this.map[i] != 0 ){
+							switch( this.map[i].toString() ){
+								case "2":
+									to = "down";
+									break;
+								case "3":
+									to = "left";
+									break;
+								case "4":
+									to = "up";
+									break;
+								default:
+									to = "right"
+							}
+							sHtml += "<li class="+to+"><div></div></li>";
+						}else{
+							sHtml += "<li></li>";
+						}
+						
+					}
+					this.dom['container'].innerHTML = sHtml;
+				},
+				clearInput:function(){
+					this.dom['input'].value = "";
+				},
+				other:function(){
+					alert("错误输入");
+					this.clearInput();
+				},
+				turnRight:function(){
+					this.map[ this.currentCoor ] =  (this.map[ this.currentCoor ] % 4)+1;
+					this.render();
+				},
+				turnLeft:function(){
+					var next = (this.map[ this.currentCoor ] -1) == 0 ? 4 :(this.map[ this.currentCoor ] -1);
+					this.map[ this.currentCoor ] =  next;
+					this.render();
+				},
+				turnBack:function(){
+					var next = ( this.map[ this.currentCoor ] + 2 ) > 4 ? (this.map[ this.currentCoor ]%4 + 2) :this.map[ this.currentCoor ] + 2 ; 
+					this.map[ this.currentCoor ] =  next;
+					this.render();
+				},
+				go:function(){
+					//范围判断
+					var x = this.currentCoor % 10 +1;
+					var y = Math.ceil( this.currentCoor / 10 );
+					var currentValue =  this.map[ this.currentCoor ];
+					console.log( currentValue );
+					switch( this.map[ this.currentCoor ].toString() ){
+						case "1":
+							if( x+1 <= 10 ){
+								this.map[ this.currentCoor ] = 0;
+								this.currentCoor = this.currentCoor+1;
+								this.map[ this.currentCoor ] = 1;
+								this.render();
+								return true;
+							}
+							alert("不能前进了");
+							break;
+						case "2":
+							if( y + 1 <= 10 ){
+								this.map[ this.currentCoor ] = 0;
+								this.currentCoor = this.currentCoor+10 ;
+								this.map[ this.currentCoor ] = 2;
+								this.render();
+								return true;
+							}
+							alert("不能前进了");
+							break;
+						case "3":
+							if( x-1 > 0 ){
+								this.map[ this.currentCoor ] = 0;
+								this.currentCoor = this.currentCoor-1;
+								this.map[ this.currentCoor ] = 3;
+								this.render();
+								return true;
+							}
+							alert("不能前进了");
+							break
+						case "4":
+							if( y-1 > 0 ){
+								this.map[ this.currentCoor ] = 0;
+								this.currentCoor = this.currentCoor-10;
+								this.map[ this.currentCoor ] = 4;
+								this.render();
+								return true;
+							}
+							alert("不能前进了");
+							break;
+					}
+				}
+				
+			}
+			
+			var direactive =  new Directive();
+			direactive.init( {
+				to:"left",
+				x:4,
+				y:4
+			} );
+			
+		</script>
+			
+	</body>
+</html>
