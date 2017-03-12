@@ -199,18 +199,18 @@
 						}
 					},
 					"transLeft": function() {
-						if( this.scope({x:this.coorX +1}) ){
+						if( this.scope({x:this.coorX -1}) ){
 							this.render({
-								x: this.coorX+1
+								x: this.coorX-1
 							})
 						}else{
 							alert("超出范围");
 						}
 					},
 					"transRight": function() {
-						if( this.scope({x:this.coorX -1}) ){
+						if( this.scope({x:this.coorX +1}) ){
 							this.render({
-								x: this.coorX-1
+								x: this.coorX+1
 							})
 						}else{
 							alert("超出范围");
@@ -255,9 +255,9 @@
 						}
 					},
 					"moveLeft": function() {
-						if(this.scope({ x: this.coorX + 1 })){
+						if(this.scope({ x: this.coorX - 1 })){
 							this.render({
-								x: this.coorX+1,
+								x: this.coorX-1,
 								rorate: 360
 							})
 						}else{
@@ -265,9 +265,9 @@
 						}
 					},
 					"moveRight": function() {
-						if(this.scope({ x: this.coorX - 1 })){
+						if(this.scope({ x: this.coorX + 1 })){
 							this.render({
-								x: this.coorX-1,
+								x: this.coorX+1,
 								rorate: 180
 							})
 						}else{
