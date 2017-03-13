@@ -1,0 +1,144 @@
+<html>
+	<head>
+		<title>task_7</title>
+		<style type="text/css">
+			table{
+				width: 800px;
+				border-collapse: collapse;
+				margin: 0 auto;
+				font: 14px/2 "微软雅黑",helvetica monospace;
+				color: #999;
+				text-align: center;
+			}
+			thead{
+				background-color: #444;
+				color: #fff;
+			}
+			th,td{
+				border: 1px solid #bbb;
+			}
+			i{
+				position: absolute;
+				margin-left: 70px;
+				width: 1em;
+				height: 1em;
+				background-position: center;
+				background-size: 0.8em;
+				background-repeat: no-repeat;
+				cursor: pointer;
+			}
+			i.top{
+				background-image: url(images/arrow-top.svg);
+			}
+			i.bottom{
+				background-image: url(images/arrow-bottom.svg);
+				margin-top: 1em;
+			}
+		</style>
+	</head>
+	<body>
+		<table>
+			<thead>
+				<tr>
+					<th>姓名</th>
+					<th><i data-filed="math-asc" class="top"></i><i  data-filed="math-desc" class="bottom"></i>数学</th>
+					<th><i data-filed="chinese-asc" class="top"></i><i data-filed="chinese-desc" class="bottom"></i>语文</th>
+					<th><i data-filed="english-asc" class="top"></i><i data-filed="english-desc" class="bottom"></i>英语</th>
+					<th><i data-filed="total-asc" class="top"></i><i data-filed="total-desc" class="bottom"></i>总分</th>
+				</tr>
+			</thead>
+			<tbody>
+
+			</tbody>
+		</table>
+		
+		<script type="text/javascript">
+			function Sort(){
+				
+				this.dom = {
+					'tbody' :document.querySelector("tbody"),
+					"thead": document.querySelector("thead")
+				}
+				this.data = [];
+				
+			}
+			Sort.prototype = {
+				"init":function(options){
+					this.data  = options.data || this.data; 
+					this.render();
+					this.bindEvent();
+				},
+				"render":function(){
+					this.dom['tbody'].innerHTML = this.data.map( function(el,i,arr){
+						return [
+							"<tr>",
+								"<td>", el.name, "</td>",
+								"<td>", el.math, "</td>",
+								"<td>", el.chinese, "</td>",
+								"<td>", el.english, "</td>",
+								"<td>", el.total, "</td>",
+							"</tr>"
+						].join("");
+					} ).join("");
+				},
+				bindEvent:function(){
+					var context = this;
+					this.dom['thead'].addEventListener("click",function(event){
+						if( event.target.nodeName == "I" ){
+							var args = event.target.dataset.filed.split("-"); 
+							context.order.apply(context, args);
+							console.dir( event.target );
+							console.dir( args )
+							context.render();
+						}
+					})
+				},
+				order:function(filed, type){
+					for(var i =0,  len = this.data.length; i < len; i++ ){
+						for(var j = i+1; j<len; j++){
+							if( type == "desc" ){
+								var condition = !(this.data[i][filed] < this.data[j][filed]);
+							}else{
+								var condition = (this.data[i][filed] < this.data[j][filed]);
+							}
+							if( condition ){
+								console.log(condition);
+								var temp = this.data[i];
+								this.data[i] = this.data[j];
+								this.data[j] = temp;
+							}
+						}
+					}
+				}
+			}
+			
+			var st = new Sort();
+			st.init({
+				data:[
+					{
+						"name":"小明",
+						"chinese":90,
+						"english":91,
+						"math":89,
+						"total":270
+					},
+					{
+						"name":"小红",
+						"chinese":86,
+						"english":94,
+						"math":99,
+						"total":279
+					},
+					{
+						"name":"小亮",
+						"chinese":99,
+						"english":93,
+						"math":81,
+						"total":273
+					}
+				]
+			});
+		</script>
+		
+	</body>
+</html>
