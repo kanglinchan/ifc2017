@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<style type="text/css">
+			body{
+				font:16px/1.5 "微软雅黑",helvetica, monospace;
+				padding: 0;
+				
+			}
+			div.container{
+				width:960px;
+				margin:0 auto;
+				
+			}
+			
+						div.header{
+				padding: 100px;
+			}
+			
+			
+			/*modal css*/
+			
+			.modal-button{
+				display: inline-block;
+				padding: 5px 10px;
+				font: 16px/1.5 "微软雅黑", monospace;
+				color: #ffffff;
+				background-color: #1E90FF;
+				border-radius: .1em;
+				cursor: pointer;
+				box-shadow: 0 .5em .5em -.5em #1E90FF;
+			}
+			
+			html,body{
+				height: 100%;
+				width: 100%;
+			}
+			div.modal-mask{
+				position: fixed;
+				background-color: rgba(22,22,22,.3);
+				left: 0;
+				top: 0;
+				right: 0;
+				bottom: 0;
+			}
+			div.modal-mask div.modal-window{
+				position: absolute;
+				/*width: 400px;
+				height: 200px;*/
+				background-color: #fff;
+				top: 50%;
+				left: 50%;
+				/*margin-left: -200px;
+				margin-top: -100px;*/
+				border: 1px solid #eee;
+				border-radius: 3px;
+				box-shadow: 0 0 2px #808080;
+				user-select: none;
+			}
+			
+			div.modal-mask div.modal-window div.modal-header{
+				height: 40px;
+				box-shadow: 0 1px 1px #aaa;
+				cursor: move;
+				
+			}
+			div.modal-mask div.modal-window div.modal-header i{
+				height: 40px;
+				width: 40px;
+				float: right;
+				background-image: url("images/close.svg");
+				background-size: 20px;
+				background-repeat: no-repeat;
+				background-position: center;
+				cursor: pointer;
+			}
+			div.modal-mask div.modal-window div.modal-header i:hover{
+				filter: brightness(30%);
+			}
+			div.modal-mask div.modal-window div.modal-header h3{
+				margin: 0 10px;
+				font-weight: normal;
+				line-height: 40px;
+				width: calc(100% - 60px);
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow:hidden;
+				color: #333;
+			}
+			div.modal-mask div.modal-window div.modal-body{
+				margin: 10px;
+				font-size: 14px;
+				color: #666;
+			}
+			div.modal-mask div.modal-window div.modal-footer{
+				position: absolute;
+				bottom: 0;
+				height: 40px;
+				width: 100%;
+				box-shadow: 0 -1px 1px #aaa;
+			}
+			
+			div.modal-mask div.modal-window div.modal-footer a.modal-button{
+				font-size: 14px;
+				margin-top: 5px;
+				margin-right: 15px;
+				float: right;
+			}
+			.modal-button.modal-cancel{
+				background: #aaa;
+				box-shadow: 0 .5em .5em -.5em #aaa;
+			}
+		</style>
+	</head>
+	<body>
+		
+		
+		<script type="text/javascript">
+			window.onload = function(){
+				
+				function ModalWindow(){
+					this.dom = {
+						'container': document.body
+					}
+					this.ref = document.createElement("div");
+					this.height = 200;
+					this.width =400;
+					this.confirm  = function(){};
+				}
+				
+				ModalWindow.prototype = {
+					open:function(options){
+						this.container = options.container || this.container;
+						this.title = options.title || this.title;
+						this.content = options.content || this.content;
+						this.width = options.width || this.width;
+						this.height = options.height || this.height;
+						this.confirm = options.confirm || this.confirm;
+						this.render();
+					},
+					render:function(){
+						
+						this.ref.innerHTML = [
+							'<div class="modal-mask">',
+								'<div class="modal-window">',
+									'<div class="modal-header">',
+										'<i class="modal-close"></i>',
+										'<h3>',
+											this.title,
+										'</h3>',
+									'</div>',
+									'<div class="modal-body">',
+										this.content,
+									'</div>',
+									'<div class="modal-footer">',
+										'<a class="modal-button modal-confirm">'+'確定'+'</a>',
+										'<a class="modal-button modal-cancel">'+'取消'+'</a>',	
+									'</div>',
+								'</div>',
+							'</div>'
+						].join("");
+						this.dom['container'].appendChild( this.ref );
+						/*获取dom元素*/
+						this.dom['window'] = document.querySelector("div.modal-window");
+						this.dom['mask'] = document.querySelector("div.modal-mask");
+						this.dom['close'] = document.querySelector("i.modal-close");
+						this.dom['cancel'] = document.querySelector("a.modal-cancel");
+						this.dom['header'] = document.querySelector("div.modal-header");
+						this.dom['confirm'] = document.querySelector("a.modal-confirm");
+						//设置属性
+						this.dom['window'].style.width = this.width+"px";
+						this.dom['window'].style.height = this.height+"px";
+						this.dom['window'].style.marginLeft = this.width/-2+"px";
+						this.dom['window'].style.marginTop = this.height/-2+"px";
+						
+						//绑定事件
+						var context = this;
+						this.ref.addEventListener("click",this._clickHandler= function(event){
+							if(event.target == context.dom['mask'] || event.target == context.dom['cancel'] || event.target == context.dom['close']){
+								context.clcikHandler(event);
+							}
+						});
+						
+						//拖动事件绑定
+						this.dom['header'].addEventListener("mousedown",this._mousedownHandler = function(event){
+							var disH = event.y - this.getBoundingClientRect().top ;
+							var disW = event.x - this.getBoundingClientRect().left;
+							this.addEventListener("mousemove", context._moveHander = function(event){
+								context.moveHander(event, disW, disH);
+							})
+							
+						})
+						this.dom['header'].addEventListener("mouseup",this._mouseupHandler= function(){
+							this.removeEventListener("mousemove",context._moveHander)
+						})
+						
+						//確定回调
+						this.dom['confirm'].addEventListener("click",this._confirmHander = function(){
+							context.confirm();
+							context.close();
+						})
+						
+					},
+					moveHander:function(event, disW, disH){
+						this.dom['window'].style.marginLeft = 0;
+						this.dom['window'].style.marginTop = 0;
+						var ctx = this;
+						console.dir( event.y )
+							ctx.dom['window'].style.left = (event.x - disW) +"px";
+							ctx.dom['window'].style.top = (event.y - disH) +"px";
+					},
+					clcikHandler: function(){
+							this.close();
+					},
+					close:function(){
+						//取消事件绑定
+						this.ref.removeEventListener("click",this._clickHandler);
+						this.dom['header'].removeEventListener("mousedown",this._mousedownHandler);
+						this.dom['header'].removeEventListener("mouseup",this._mouseupHandler);
+						this.dom['confirm'].removeEventListener("click",this._confirmHander);
+						this.ref.parentNode.removeChild( this.ref );
+				
+					}
+				}
+				
+				var Mv = new ModalWindow();
+				document.querySelector("#modal-button").addEventListener("click",function(){
+					Mv.open({
+						title:"这是标题啊！！",
+						content:"内容梗概内容梗概，内容梗概，内容梗概内容梗概内容梗概内容梗概，内容梗概",
+						height:300,
+						width:200,
+						confirm:function(){
+							alert("确定回调！！！！");
+						}
+					});
+				})
+				
+				//手动关闭
+				window.setTimeout(function(){
+					Mv.close();
+				},2000)
+				
+			}
+			
+			
+		</script>
+		
+
+		<div class="container">
+			<!--触发按钮-->
+			<div class="header">
+				<a id="modal-button" class="modal-button">模态弹窗 | 按钮</a>
+			</div>
+			
+			
+			<!--滚动内容-->
+			<h3>这是标题</h3>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+			</p>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				
+			</p>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				
+			</p>
+			
+			<h3>这是标题</h3>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+			</p>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				
+			</p>
+			<p>
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				这是内容正文这是内容正文，这是内容正文，这是内容正文这是内容正文这是内容正文这是内容正文，
+				这是内容正文这是内容正文这是内容正文，这是内容正文。这是内容正文这是内容正文
+				这是内容正文。
+				
+			</p>
+		</div>
+	</body>
+</html>
