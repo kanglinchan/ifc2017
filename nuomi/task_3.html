@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>task_2</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			
+			function Oberserver( data ){
+				this.data = data;
+				this._each(data); 
+			}
+			Oberserver.cache = {};
+			Oberserver.prototype = {
+				_each:function(data){
+					for(var key in data ){
+						//hasOwnProperty函数用于指示一个对象自身(不包括原型链)是否具有指定名称的属性
+						if( data.hasOwnProperty( key ) ){
+							var value = data[key];
+							if( typeof(value) === "object" ){
+								//如果還有子節點
+								new Oberserver( value );
+							}
+							//this指向當前val的的上級
+							this.listener( key, value );
+						}
+					}
+				},
+				listener :function(key,val){
+					var context = this;
+					Object.defineProperty( this.data, key, {
+						emumerable: true, /*访问*/
+						configurable :true,/*設置*/
+						get:function(){
+							context.publish( key, val );
+							return val;
+						},
+						set:function( newVal ){		
+							if( newVal !== val ){
+								val = newVal;
+								context.publish( key, val );
+							}		
+						}
+					})
+				},
+				$watch: function(key, callback){
+					if( typeof Oberserver.cache[key] === "undefined" ){
+						Oberserver.cache[key] = [];
+					}
+					Oberserver.cache[key].push( callback );
+				},
+				publish:function( key ,val ){
+					var list = Oberserver.cache[key] || [];
+					for(var i =0; i < list.length; i++){
+						 list[i].call(null, val);
+					}
+				}
+			}
+			
+			
+			var ob = new Oberserver({
+				a:{
+					b:12,
+					c:{
+						d:23
+					}
+				},
+				e:{
+					f:111
+				}
+			})
+			
+			ob.$watch('b',function( value ){
+				console.log( `我的年纪变了，现在已经是:${value}岁` )
+			})
+			ob.$watch('d',function( value ){
+				console.log( `我的年纪变了，现在已经是:${value}岁` )
+			})
+			
+		</script>
+	</body>
+</html>
