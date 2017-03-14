@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>自定义checkbox， radio样式</title>
+		<style type="text/css">
+			body{
+				font: 16px/2em "microsoft yahei", helvetica, monospace;
+			}
+			input[type="checkbox"],input[type="radio"]{
+				display: none;
+			}
+			
+			input[type="radio"]+label:before,
+			input[type="checkbox"]+label:before{
+				cursor: pointer;
+				display: inline-block;
+				width: .9em;
+				height: .9em;
+				border: 1px solid #999;
+				margin-right: 0.2em;
+			}
+
+			input[type="checkbox"]+label:before{
+				content: "√";
+				font-weight: 900;
+				line-height: 1em;
+				color: white;
+			}
+
+			input[type="radio"]+label:before{
+				content: "";
+				border-radius: 50%;
+			}
+			
+			
+			input[type="radio"]:checked+label:before{
+				border: 1px solid mediumseagreen;
+				background-image: radial-gradient(mediumseagreen 35%, transparent 45% );
+			}
+			input[type="checkbox"]:checked+label:before{
+				border: 1px solid mediumseagreen;
+				color: mediumseagreen;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<form action="" method="post">
+			<div>
+				<input type="radio" name="radio" checked="" id="one" value=""/><label for="one">單選框1</label>
+				<input type="radio" name="radio" id="two" value=""/><label for="two">單選框2</label>
+			</div>
+			<div>
+				<input type="checkbox" name="checkbox" id="three" value=""/><label for="three">複選框3</label>
+				<input type="checkbox" name="checkbox" id="four" value=""/><label for="four">複選框4</label>
+			</div>
+		</form>
+		
+	</body>
+</html>
