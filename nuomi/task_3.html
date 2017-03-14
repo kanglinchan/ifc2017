@@ -41,7 +41,13 @@
 						},
 						set:function( newVal ){		
 							if( newVal !== val ){
-								val = newVal;
+								//添加新對象
+								if( typeof newVal === "object"  ){ 
+									var newChild = new Oberserver( newVal );
+									val = newChild.data;
+								}else{
+									val = newVal;
+								}
 								context.publish( key, val );
 							}		
 						}
@@ -56,7 +62,8 @@
 				publish:function( key ,val ){
 					var list = Oberserver.cache[key] || [];
 					for(var i =0; i < list.length; i++){
-						 list[i].call(null, val);
+						 list[i].call(null,key, val);
+						 
 					}
 				}
 			}
@@ -74,12 +81,28 @@
 				}
 			})
 			
-			ob.$watch('b',function( value ){
+			ob.$watch('b',function(key, value ){
 				console.log( `我的年纪变了，现在已经是:${value}岁` )
 			})
-			ob.$watch('d',function( value ){
+			ob.$watch('d',function( key, value ){
 				console.log( `我的年纪变了，现在已经是:${value}岁` )
 			})
+			
+			
+			var app1 = new Oberserver({
+			         name: 'youngwind',
+			         age: 25
+			});
+//			 app1.data.name = {
+//			         lastName: 'liang',
+//			         firstName: 'shaofeng'
+//			 };
+			 app1.$watch('lastName',function(key, value ){
+				console.log( '你访问了'+key );
+			})
+			
+			
+			
 			
 		</script>
 	</body>
