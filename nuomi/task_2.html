@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>task_2</title>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			
+			function Oberserver( data ){
+				this.data = data;
+				this._each(data); 
+			}
+			Oberserver.prototype = {
+				_each:function(data){
+					for(var key in data ){
+						//hasOwnProperty函数用于指示一个对象自身(不包括原型链)是否具有指定名称的属性
+						if( data.hasOwnProperty( key ) ){
+							var value = data[key];
+							if( typeof(value) === "object" ){
+								new Oberserver( value );
+							}
+							this.listener(key, value );
+						}
+					}
+				},
+				listener :function(key,val){
+					Object.defineProperty(this.data, key, {
+						emumerable: true, /*访问*/
+						configurable :true,/*設置*/
+						get:function(){
+							console.log("你访问了"+key);
+							return val;
+						},
+						set:function( newVal ){
+							console.log("你设置了 "+key+"，新的值为"+newVal);
+							val = newVal;
+						}
+					})
+				}
+			}
+			
+			var ob = new Oberserver({
+				a:{
+					b:12,
+					c:{
+						d:23
+					}
+				},
+				e:{
+					f:111
+				}
+			})
+
+			
+		</script>
+	</body>
+</html>
+<!--let app1 = new Observer({
+  name: 'youngwind',
+  age: 25
+});
+
+let app2 = new Observer({
+  university: 'bupt',
+  major: 'computer'
+});
+
+// 要实现的结果如下：
+app1.data.name // 你访问了 name
+app.data.age = 100;  // 你设置了 age，新的值为100
+app2.data.university // 你访问了 university
+app2.data.major = 'science'  // 你设置了 major，新的值为 science-->
