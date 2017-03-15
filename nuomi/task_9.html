@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>使用CSS实现折叠面板</title>
+		<style type="text/css">
+			body{
+				font: 16px/1.5  "微软雅黑" ,helvetica, monospace;
+				color: #555;
+			}
+			div.wrap{
+				width: 60%;
+				padding: 1em;
+				border: 1px solid #aaa;
+				border-radius: .4em;
+				margin: 30px auto;
+			}
+			ul.collapse-panel{
+				list-style: none;
+				padding-left: 0;
+			}
+			ul.collapse-panel li{
+				margin-bottom: .4em;
+			}
+			
+			input[type="radio"]{
+				display: none;
+			}
+			input[type="radio"] + label{
+				display: block;
+				background-color: #f5f5f5;
+				line-height: 2.5em;
+				padding:0 1em;
+				border-radius: .3em;
+				border: 1px solid #cccccc;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			input[type="radio"]:checked + label{
+				border-bottom-left-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			input[type="radio"] + label:hover{
+				text-decoration: underline;
+				cursor: pointer;
+			}
+			input[type="radio"] + label+div{
+				display: none;
+				transition: height .5s;
+			}
+			input[type="radio"]:checked + label+div{
+				display: block;
+				padding: 1em;
+				border: 1px solid #cccccc;
+				font-size: 14px;
+				border-bottom-left-radius: .3em;
+				border-bottom-right-radius: .3em;
+				margin-top: -1px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<div class="wrap">
+			<span>实例：</span>
+			<!--start-->
+			<ul class="collapse-panel">
+				<li>
+					<input type="radio" checked="" name="collapse" id="panel-1" value="" />
+					<label for="panel-1">collapse panel item one ###########################   </label>
+					<div id="content">
+						说的是事实是事实事实上身上，射雕首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞
+						说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+						说的是事实是事实事实上身上射雕，首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的
+						是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+					</div>
+				</li>
+				<li>
+					<input type="radio" name="collapse" id="panel-2" value="" />
+					<label for="panel-2"> collapse panel item two  </label>
+					<div id="content">
+						说的是事实是事实事实上身上，射雕首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞
+						说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+						说的是事实是事实事实上身上射雕，首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的
+						是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+					</div>
+				</li>
+				<li>
+					<input type="radio" name="collapse" id="panel-3" value="" />
+					<label for="panel-3"> collapse panel item three  </label>
+					<div id="content">
+						说的是事实是事实事实上身上，射雕首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞
+						说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+						说的是事实是事实事实上身上射雕，首都师大谁谁谁色舞，说的是事实是事实事实上身上射雕首都师大谁谁谁色舞说的
+						是事实是事实事实上身上射雕首都师大谁谁谁色舞。
+					</div>
+				</li>
+			</ul>
+			<!--end-->
+			
+		</div>
+		
+		
+		
+	</body>
+</html>
