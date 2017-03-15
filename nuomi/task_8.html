@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>自定义网页右键菜单</title>
+		
+		<style type="text/css">
+			body{
+				margin: 0;
+			}
+			div#block{
+				height: 200px;
+				background: lightgoldenrodyellow;
+			}
+			ul#menu{
+				display: none;
+				position: absolute;
+				margin:0;
+				text-indent: .4em;
+				padding: .2em;
+				list-style: none;
+				width: 200px;
+				border: 1px solid #EEEEEE;
+				box-shadow: 0 1px 1px #bbb;
+				border-radius: .1em;
+				background-color: #FFFFFF;
+				color: #8a8a8a;
+			}
+			
+			ul#menu li{
+				font: 14px/2em "微软雅黑";
+				border-bottom: 1px #eee solid;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			ul#menu li:last-child{
+				border-bottom: 1px transparent solid;
+			}
+			ul#menu li:hover{
+				cursor: pointer;
+				background: #eee;
+			}
+			h1{
+				margin: 0 auto;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<ul id="menu">
+				<li>菜单一菜单一菜单一菜单一菜单一</li>
+				<li>菜单二</li>
+				<li>菜单三</li>
+		</ul>
+		<div id="block">
+			<h1>右击范围</h1>
+		</div>
+		
+		<script type="text/javascript">
+			
+			var block = document.getElementById("block");
+			var menu = document.getElementById("menu");
+			
+			//监听contextmenu 事件
+			block.addEventListener("contextmenu",function(event){
+				//取消默认事件
+				event.preventDefault();
+				menu.style.left = event.x +"px";
+				menu.style.top = event.y +"px";
+				menu.style.display = "block"
+			})
+			document.addEventListener("click",function(){
+				menu.style.display = "none"
+			})
+			
+			
+		</script>
+		
+	</body>
+</html>
