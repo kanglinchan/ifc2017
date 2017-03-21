@@ -17,7 +17,7 @@
 				-webkit-background-origin: content-box;
 				border:1px solid black
 			}*/
-			div#box{
+			/*div#box{
 				position: relative;
 				left: 0;
 				top: 0;
@@ -26,13 +26,35 @@
 				height: 100px;
 				transition: all 1s;
 				transform: rotate(0deg);
+			}*/
+			div.wrap{
+				background: #32CD32;
+				height: 20px;
+				display: inline-block;
+			}
+			div.inner{
+				background: green;
+				height: 20px;
+				width: 20px;
+				/*margin-left: 200px;*/
+				left: 200px;
 			}
 		</style>
 	</head>
 	<body>
-		<div id="box">
-			
+		
+		
+		
+		<div class="wrap">
+			<div class="inner"></div>
 		</div>
+		
+		
+		
+		
+		<!--<div id="box">
+			
+		</div>-->
 		<script type="text/javascript">
 //			var div = document.querySelector("div#box");
 //			div.addEventListener("click",function(){

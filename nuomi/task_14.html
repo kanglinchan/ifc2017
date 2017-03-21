@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+		<style type="text/css">
+			html,body{
+				height: 100%;
+			}
+			body{
+				margin: 0;
+				background: #ffdf8b;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font: 12px/1.5 "微软雅黑", helvetica, monospace;
+				color: #666666;
+			}
+			div#music{
+				background: #FFFFFF;
+				width: 600px;
+				height: 450px;
+				border-radius: .4em;
+				padding: 20px 35px;
+				user-select: none;
+			}
+			div.image{
+				height: 60px;
+				width: 60px;
+				margin: 0 auto;
+			}
+			div.image img{
+				width: 100%;
+				height: 100%;
+				border-radius: 2px;
+			}
+			h3.title{
+				text-align: center;
+				margin: 8px auto 15px;
+				
+			}
+			p.album, p.artist{
+				text-align: center;
+				margin: 4px auto;
+			}
+			p.album span, p.artist span{
+				color: #999999;
+			}
+			div.process{
+				display: flex;
+				width: 405px;
+				margin: 15px auto;
+			}
+			div.process span{
+				flex-basis: 30px;
+			}
+			div.process > div{
+				flex-grow: 1;
+				background-color: #bbb;
+				height: 2px;
+				margin: auto 5px;
+				border-radius: 1px;
+			}
+			div.process div.process-inner{
+				height: 100%;
+				background: #666666;
+				display: inline-block;
+				vertical-align: top;
+			}
+			i.process-handler{
+				border: 5px solid #666666;
+				margin-top: -4px;
+				margin-left: -5px;
+				display: block;
+				background: #666666;
+				border-radius: 50%;
+				transition: filter 1s;
+				filter: opacity(0);
+				cursor: pointer;
+			}
+			
+			div.process:hover i.process-handler{
+				filter: opacity(1);
+			}
+			div.controller{
+				display: flex;
+				height: 50px;
+				justify-content: center ;
+				 flex-grow:1;
+			}
+			div.controller>div{
+				flex-basis: 150px;
+				display: flex;
+			}
+			div.controller>div>i{
+				flex-basis: 50px;
+			}
+			ul.list{
+				list-style: none;
+				margin-top: 20px;
+				padding-left: 0;
+				height: 150px;
+				overflow: auto;
+				
+			}
+			ul.list li{
+				height: 50px;
+				display: flex;
+			}
+			ul.list li i.icon,ul.list li i.length{
+				flex-basis: 50px;
+			}
+			ul.list li i.icon.active{
+				background-image: url(images/icon.png);
+				background-position: -250px;
+				background-size: 300px;
+				
+			}
+			ul.list li i.length{
+				line-height: 50px;
+			}
+			ul.list li p.title{
+				flex-grow: 1;
+				margin: 0;
+				line-height: 50px;
+			}
+			div.controller i{
+				background-image: url(images/icon.png);
+				background-size: 300px;
+			}
+			div.controller i.previous{
+				background-position: -150px center;
+			}
+			div.controller i.next{
+				background-position: -100px center;
+			}
+			div.controller i.play{
+				background-position: -50px center;
+			}
+			div.controller div.turn{
+				display: flex;
+				justify-content: flex-start;
+			}
+			div.controller div.turn i{
+				background-position: -200px;
+			}
+			div.controller div.turn div.turn-process{
+				height: 2px;
+				margin: auto 30px auto 15px;
+				background: #aaa;
+				width: 100%;
+				filter: opacity(0);
+				transition: filter 1s;
+			}
+			div.controller div.turn:hover div.turn-process{
+				filter: opacity(1);
+			}
+			div.turn-process-inner{
+				background-color: #f67c4b;
+				height: 100%;
+				display: inline-block;
+				vertical-align: top;
+			}	
+			span.handler{
+				display: block;
+				width: 8px;
+				height: 8px;
+				border-radius: 50%;
+				background-color: #f67c4b;
+				margin-left: 30px;
+				margin-top: -3px;
+				cursor: pointer;
+			}
+			
+		</style>
+	<body>
+
+		
+		<div id="music">
+			<div class="image">
+				<img src=""/>
+			</div>
+			<h3 class="title"></h3>
+			<p class="album">
+				<span> Album - </span> 
+			</p>
+			<p class="artist">
+				<span>Artist - </span> 
+			</p>
+			<div class="process">
+				<span class="currentTime"></span>
+				<div>
+					<div class="process-inner">  
+						<i class="process-handler"></i>
+					</div>
+				</div>
+				<span class="duration"></span>
+			</div>
+			<div class="controller">
+				<div></div>
+				<div>
+					<i class="previous"></i>
+					<i class="play"></i>
+					<i class="next"></i>
+				</div>
+				<div class="turn">
+					<i></i>
+					<div class="turn-process">
+						<div class="turn-process-inner">
+							<span class="handler"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<ul class="list">
+			</ul>
+		</div>
+		
+		<script type="text/javascript">
+			
+			var data = [
+				{
+					"id":1,
+					"album":"麦田捕手",
+					"author":"百安",
+					"title":"半调子人生",
+					"url":"mp3/白安 - 半调子人生 (Demo).mp3",
+					"image"	:"images/baian.jpg"
+				},
+				{
+					"id":2,
+					"album":"千嬅盛放",
+					"author":"杨千嬅",
+					"title":"野孩子",
+					"url":"mp3/杨千嬅 - 野孩子.mp3",
+					"image"	:"images/qianhuashengfang.jpg"
+				},
+				{
+					"id":3,
+					"album":"麦田捕手",
+					"author":"百安",
+					"title":"麦田捕手",
+					"url":"mp3/白安 - 麦田捕手 (Demo).mp3",
+					"image"	:"images/baian2.jpg"
+				},
+				{
+					"id":4,
+					"album":"千嬅盛放",
+					"author":"杨千嬅",
+					"title":"勇",
+					"url":"mp3/杨千嬅 - 勇.mp3",
+					"image"	:"images/qianhuashengfang.jpg"
+				}
+			];
+			
+		
+			var 
+			list = document.querySelector("ul.list"),
+			playBtn = document.querySelector(".play"),
+			image = document.querySelector("div.image img"),
+			title = document.querySelector("h3.title"),
+			album = document.querySelector("p.album").lastChild,
+			artist = document.querySelector("p.artist").lastChild,
+			currentTime = document.querySelector("span.currentTime"),
+			duration = document.querySelector("span.duration"),
+			process = document.querySelector("div.process-inner"),
+			turnProcess = document.querySelector("div.turn-process"),
+			turnProcessInner = document.querySelector("div.turn-process-inner"),
+			turnProcessHandler = document.querySelector("span.handler"),
+			previous = document.querySelector("i.previous"),
+			next = document.querySelector("i.next"),
+			processHandler = document.querySelector("i.process-handler"),
+			processWrap = document.querySelector("div.process>div"),
+			 _mousemove = null,
+			len = turnProcess.clientWidth -8,
+			processWrapLength = processWrap.clientWidth-10,
+			time = 0;
+			audioList = [],
+			currentObject = null,
+			_timeupdateHandler = null,
+			_processMousemove = null;
+			//current = 0;
+			
+			Promise.all( data.map( (el, index, arr) =>{
+				return new Promise(( res, rej ) => {
+					var ad = document.createElement("audio");
+					ad.setAttribute("src", el.url);
+					ad.addEventListener('loadeddata',function(){
+						var minute = (ad.duration / 60).toFixed(2).toString().replace(".",":");
+						el.duration = minute;
+						audioList.push( {
+							"audio":this,
+							"msg":el
+						} );
+						res(  minute );
+					})	
+				}).then( duration => {
+					return [
+						'<li data-id="',el.id,'">',
+							'<i class="icon"></i>',
+							'<p data-id="',el.id,'" class="title">', el.title ,'</p>',
+							'<i class="length">', duration ,'</i>',
+						'</li>'
+					].join("");
+				} )
+			}))
+			.then( htmls =>{
+				list.innerHTML =  htmls.join("");
+				play();
+			} )
+			
+			
+			function play(){
+				var a =  document.querySelector("audio");
+				if( !(typeof a ==="object" && !a) ){
+					a.parentElement.removeChild( a );
+				}
+				currentObject = audioList[1];
+				//audioList.push( currentObject );
+				console.dir( currentObject.msg.title )
+				document.body.appendChild( currentObject.audio );
+				currentObject.audio.play();
+				title.innerHTML =  currentObject.msg.title;
+				
+				image.src = currentObject.msg.image;
+				album.textContent = currentObject.msg.album;
+				artist.textContent = currentObject.msg.author;
+				
+				duration.innerHTML = currentObject.msg.duration;
+				currentObject.audio.volume = turnProcessInner.clientWidth / turnProcess.clientWidth;
+				currentObject.audio.addEventListener("timeupdate",_timeupdateHandler = function(){
+					//console.dir( currentObject.audio.currentTime );
+					currentTime.innerHTML = (currentObject.audio.currentTime/60).toFixed(2);
+					processHandler.style.marginLeft = (processWrap.clientWidth * currentObject.audio.currentTime / currentObject.audio.duration) +"px";
+				})
+			}
+			
+			
+			playBtn.addEventListener("click",function(){
+				if( currentObject.audio.paused){
+					this.style.backgroundPositionX = -50+"px";
+					currentObject.audio.play();
+				}else{
+					currentObject.audio.pause();
+					this.style.backgroundPositionX = 0+"px";
+				}
+			})
+			
+			
+			turnProcessHandler.addEventListener("mousedown",function(event){
+				document.addEventListener("mousemove",_mousemove = function(event){
+					var disX = 0;
+					disX = event.x - turnProcess.getBoundingClientRect().left;
+					
+					if( event.x < turnProcess.getBoundingClientRect().left ){
+						disX = -8;
+					}
+					if( event.x - turnProcess.getBoundingClientRect().left > len ){
+						disX = len;
+					}
+					turnProcessHandler.style.marginLeft = disX +"px";
+				})
+			})
+			document.addEventListener("mouseup",function(){
+				document.removeEventListener("mousemove",_mousemove)
+				currentObject.audio.volume = turnProcessInner.clientWidth / turnProcess.clientWidth;
+			});
+			
+			previous.addEventListener("click",function(){
+				var temp = audioList.pop();
+				audioList.unshift( temp );
+				play();
+			})
+			function next(){
+				var temp = audioList.shift();
+				audioList.push( temp );
+				play();
+			}
+			next.addEventListener("click",next);
+
+			
+			processHandler.addEventListener("mousedown",function(){
+				console.dir( currentObject.audio );
+				currentObject.audio.removeEventListener("timeupdate",_timeupdateHandler);
+				document.addEventListener("mousemove",_processMousemove=function(event){
+					var disX = event.x - processWrap.getBoundingClientRect().left;
+					if( disX < 0 ){
+						disX = 0;
+					}
+					if( disX > processWrapLength ){
+						disX = processWrapLength;
+					}
+					processHandler.style.marginLeft = disX +"px";
+					time = parseInt( disX / processWrapLength * currentObject.audio.duration );
+					console.dir( time );
+					currentObject.audio.currentTime = "30";
+				})
+			})
+				
+			
+			document.addEventListener("mouseup",function(event){
+				document.removeEventListener("mousemove",_processMousemove);
+				currentObject.audio.addEventListener("timeupdate",_timeupdateHandler);
+			})
+			
+			
+//			list.addEventListener("click",function(event){
+//				var id = event.target.parentElement.dataset.id;
+//				 var temp = audioList.splice(0,id-1 );
+//				 audioList = audioList.concat( temp );
+//				 play();
+//			})
+			
+			
+		</script>
+	</body>
+</html>
