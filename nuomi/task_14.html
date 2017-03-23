@@ -297,9 +297,9 @@
 					})	
 				}).then( duration => {
 					return [
-						'<li data-id="',el.id,'">',
-							'<i class="icon"></i>',
-							'<p data-id="',el.id,'" class="title">', el.title ,'</p>',
+						'<li>',
+							'<i></i>',
+							'<p class="title">', el.title ,'</p>',
 							'<i class="length">', duration ,'</i>',
 						'</li>'
 					].join("");
@@ -317,8 +317,6 @@
 					a.parentElement.removeChild( a );
 				}
 				currentObject = audioList[1];
-				//audioList.push( currentObject );
-				console.dir( currentObject.msg.title )
 				document.body.appendChild( currentObject.audio );
 				currentObject.audio.play();
 				title.innerHTML =  currentObject.msg.title;
@@ -330,10 +328,10 @@
 				duration.innerHTML = currentObject.msg.duration;
 				currentObject.audio.volume = turnProcessInner.clientWidth / turnProcess.clientWidth;
 				currentObject.audio.addEventListener("timeupdate",_timeupdateHandler = function(){
-					//console.dir( currentObject.audio.currentTime );
 					currentTime.innerHTML = (currentObject.audio.currentTime/60).toFixed(2);
 					processHandler.style.marginLeft = (processWrap.clientWidth * currentObject.audio.currentTime / currentObject.audio.duration) +"px";
 				})
+				currentObject.audio.addEventListener("ended", nextPlay);
 			}
 			
 			
@@ -372,16 +370,16 @@
 				audioList.unshift( temp );
 				play();
 			})
-			function next(){
+			function nextPlay(){
 				var temp = audioList.shift();
 				audioList.push( temp );
 				play();
 			}
-			next.addEventListener("click",next);
+			next.addEventListener("click",nextPlay);
 
 			
+			
 			processHandler.addEventListener("mousedown",function(){
-				console.dir( currentObject.audio );
 				currentObject.audio.removeEventListener("timeupdate",_timeupdateHandler);
 				document.addEventListener("mousemove",_processMousemove=function(event){
 					var disX = event.x - processWrap.getBoundingClientRect().left;
@@ -393,7 +391,6 @@
 					}
 					processHandler.style.marginLeft = disX +"px";
 					time = parseInt( disX / processWrapLength * currentObject.audio.duration );
-					console.dir( time );
 					currentObject.audio.currentTime = "30";
 				})
 			})
@@ -404,13 +401,6 @@
 				currentObject.audio.addEventListener("timeupdate",_timeupdateHandler);
 			})
 			
-			
-//			list.addEventListener("click",function(event){
-//				var id = event.target.parentElement.dataset.id;
-//				 var temp = audioList.splice(0,id-1 );
-//				 audioList = audioList.concat( temp );
-//				 play();
-//			})
 			
 			
 		</script>
