@@ -224,8 +224,8 @@
 					"id":1,
 					"album":"麦田捕手",
 					"author":"百安",
-					"title":"半调子人生",
-					"url":"mp3/白安 - 半调子人生 (Demo).mp3",
+					"title":"斑馬線",
+					"url":"http://mr3.doubanio.com/5c56d4695a54e3c5a3ffbf05fdae42ec/0/fm/song/p1841009_64k.mp3",
 					"image"	:"images/baian.jpg"
 				},
 				{
@@ -233,7 +233,7 @@
 					"album":"千嬅盛放",
 					"author":"杨千嬅",
 					"title":"野孩子",
-					"url":"mp3/杨千嬅 - 野孩子.mp3",
+					"url":"http://mr3.doubanio.com/b945f0b5542904fda96f46867b5eed8d/0/fm/song/p1451876_64k.mp3",
 					"image"	:"images/qianhuashengfang.jpg"
 				},
 				{
@@ -241,7 +241,7 @@
 					"album":"麦田捕手",
 					"author":"百安",
 					"title":"麦田捕手",
-					"url":"mp3/白安 - 麦田捕手 (Demo).mp3",
+					"url":"http://mr3.doubanio.com/9e40f77f16817cdb4ac62cdc45822920/0/fm/song/p1840865_64k.mp3",
 					"image"	:"images/baian2.jpg"
 				},
 				{
@@ -249,7 +249,7 @@
 					"album":"千嬅盛放",
 					"author":"杨千嬅",
 					"title":"勇",
-					"url":"mp3/杨千嬅 - 勇.mp3",
+					"url":"http://mr1.doubanio.com/ce98941a55fd2471e55bd70b2606e6a8/0/fm/song/p1451882_64k.mp3",
 					"image"	:"images/qianhuashengfang.jpg"
 				}
 			];
@@ -329,7 +329,7 @@
 				currentObject.audio.volume = turnProcessInner.clientWidth / turnProcess.clientWidth;
 				currentObject.audio.addEventListener("timeupdate",_timeupdateHandler = function(){
 					currentTime.innerHTML = (currentObject.audio.currentTime/60).toFixed(2);
-					processHandler.style.marginLeft = (processWrap.clientWidth * currentObject.audio.currentTime / currentObject.audio.duration) +"px";
+					processHandler.style.marginLeft =( (processWrap.clientWidth * currentObject.audio.currentTime / currentObject.audio.duration)-10) +"px";
 				})
 				currentObject.audio.addEventListener("ended", nextPlay);
 			}
@@ -391,7 +391,7 @@
 					}
 					processHandler.style.marginLeft = disX +"px";
 					time = parseInt( disX / processWrapLength * currentObject.audio.duration );
-					currentObject.audio.currentTime = "30";
+					currentObject.audio.currentTime = time;
 				})
 			})
 				
