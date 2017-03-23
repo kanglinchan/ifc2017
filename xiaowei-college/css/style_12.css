@@ -1,0 +1,106 @@
+table{
+	border-collapse: collapse;
+	text-align: center;
+	width: 300px;
+}
+
+table td, table th{
+	border:1px solid #aaa;
+	height: 28px;
+}
+
+table thead tr{
+	background-color: #333;
+	color: white;
+}
+table tbody tr:nth-child(2n+1){
+	background-color: #eef;
+}
+table tbody tr:nth-child(2n){
+	background-color: #ffe;
+}
+table tbody tr:nth-child(1),
+table tbody tr:nth-child(2),
+table tbody tr:nth-child(3){
+	color: #f44;
+}
+
+input{
+	display: block;
+	margin: 20px;
+	width: 150px;
+	height: 35px;
+	transition: all 0.4s ease-in;
+}
+input:focus{
+	width: 220px;
+}
+
+
+#box{
+	width: 600px;
+	height: 200px;
+	background-color: red;
+}
+
+#box ul{
+	width: 600px;
+	height: 200px;
+	overflow: hidden;
+	position: relative;
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+	background-color: #eee;
+}
+
+#box ul li{
+	width: 600px;
+	height: 200px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	 z-index:1;
+}
+
+#box ul li:nth-child(1){
+	background-color: red;
+	z-index: 4;
+}
+
+#box ul li:nth-child(2){
+	background-color: green;
+}
+
+#box ul li:nth-child(3){
+	background-color: yellow;
+}
+
+#box .nav{
+	position: absolute;
+	margin-top: 
+	width:16px;
+	height: 40px;
+	margin-left: 480px;
+	margin-top:160px;
+	z-index: 5;
+}
+
+#box .nav a{
+	display: block;
+	width: 40px;
+	height: 40px;
+	background-color: white;
+	opacity: 0.5;
+	float: left;
+}
+
+#box ul :target {
+    z-index:4;
+    animation: change 1s;
+}
+@keyframes change
+{
+0%   {left:100%;}
+100% {left:0;}
+}

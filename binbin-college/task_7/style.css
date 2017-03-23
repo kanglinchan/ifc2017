@@ -1,0 +1,25 @@
+#binary-tree{
+    height: 400px;
+}
+
+#wrap {
+    padding: 20px;
+    border: #333 1px solid;
+    margin: 20px;
+}
+
+#wrap div{
+    float: left;
+    width: 46%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: #333 1px solid;
+    margin: 2%;
+}
+
+div:after{
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}

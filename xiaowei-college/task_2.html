@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>task_2</title>
+	<link rel="stylesheet" href="./css/normalize.css" />
+	<style type="text/css">	
+		body{
+			background-color: #cfcfcf;
+			font-family: "Microsoft YaHei"
+		}
+		
+		#header{
+			background-color: #333;
+			height: 60px;
+		}
+		
+		#header .logo{
+			padding: 10px 0 10px 40px;
+		}
+		
+		#header .nav{
+			float: right;
+			font-size: 12px;
+			color: white;
+			margin: 24px auto;
+			line-height: 12px;
+		}
+		
+		#header .nav li{
+			float: left;
+			margin-right: 20px;
+			width: 50px;
+		}
+		
+		#header .nav li.active{
+			color: #999;
+		}
+		
+		.block{
+			margin:20px 20px 0 20px; 
+			background-color: white;
+			border: 1px solid #aaa;
+			box-shadow: 0px 2px 1px #999;
+			padding: 30px 20px;
+		}
+		
+		.block h4{
+			color: #555;
+		}
+		
+		.block small{
+			color: #555;
+		}
+		.block .content-list{
+			list-style: none;
+			padding-left: 20px;
+		}
+		
+		.block .pic-list{
+			list-style: none;
+			font-size: 12px;
+		}
+		.block .pic-list p{
+			margin-top: 0;
+		}
+		
+		.block .pic-list li{
+			border: 1px solid #ccc;
+			width: 100px;
+			padding: 10px;
+			margin-bottom: 10px;
+			text-align: center;
+		}
+		
+		.block .pic-list img{
+			width: 100%;
+		}
+		
+		.block .tbale-box{
+			width: 100%;
+			border-collapse: collapse ;
+			font-size: 12px;
+			line-height: 20px;
+		}
+		
+		.block .tbale-box thead{
+			background-color: #333;
+			color :#fff;
+		
+		}
+		
+		.tbale-box-40{
+			width: 40%;
+		}
+		
+		.block .tbale-box tfoot{
+			background-color: #ccc;
+		}
+		
+		
+		.block .tbale-box td, .block .tbale-box th{
+			border: 1px solid #ccc;
+		
+		}
+		
+		
+		.block .quote:before{
+			content: "";
+			display: block;
+			width: 4px;
+			height: 100%;
+			background-color: #ccc;
+			float: left;
+			margin-right: 5px;
+		}
+		
+		.block .quote{
+			font-size: 18px;
+			height: 40px;
+			line-height: 40px;
+		}
+		
+		.block .form-list{
+			width: 80%;
+			margin: 0 auto;
+			list-style: none;
+		}
+		
+		.block .form-list li{
+			padding-bottom: 10px;
+			font-size: 12px;
+		}
+		
+		.block .form-list li .descript{
+			color: #aaa;
+		}
+		
+		.block .form-list li>label{
+			float: left;
+			width: 30%;
+			text-align: right;
+		}
+		
+		.block .form-list li>div{
+			padding-left: 10px;
+			margin-left: 30%;
+		}
+		
+		.block .form-list li textarea{
+			width: 100%;
+		}
+		
+		.block .form-button {
+			background-color: #3355d0;
+			border: 0;
+			width: 100%;
+			height: 40px;
+			border-radius: 5px;
+			color: #fff;
+		}
+		
+		#foot{
+			background-color: #000000;
+			height: 75px;
+			color: white;
+			text-align: center;
+			font-size: 14px;
+			margin-top: 20px;
+			padding-top: 10px;
+		}
+	</style>
+</head>
+<body>
+	<div id="header">
+		
+		<ul class="nav">
+			<li>導航一</li>
+			<li>導航儿</li>
+			<li>導航三</li>
+			<li class="active">導航四</li>
+		</ul>
+		<div class="logo">
+			<img src="./img/logo.png" alt="网站首页logo" />
+		</div>
+	</div>
+	<div class="block">
+		<h2>文章一级标题</h2>
+		<h4>文章二级标题</h4>
+		<small>文章作者 发表时间</small>
+		<p>
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			<br/>
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			<p>
+				<img src="./img/pic.jpg" alt="" />
+			</p>
+
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			<a href="http://www.baidu.com" target="_bank">新窗口百度</a>
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+		</p>
+	</div>
+	<div class="block">
+		<h2>文章一级标题</h2>
+		<h4>文章二级标题</h4>
+		<small>文章作者 发表时间</small>
+		<p>
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			<br/>
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落这是一个很长的段落
+			<p>
+				<img src="./img/pic.jpg" alt="" />
+			</p>
+
+			<ul class="content-list">
+				<li>列表项目一</li>
+				<li>列表项目一</li>
+				<li>列表项目一</li>
+				<li>列表项目一</li>
+			</ul>
+		</p>
+	</div>
+	<div class="block">
+		<h2>图片</h2>
+		<ul class="pic-list">
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+			<li>
+				<p>好看的图片</p>
+				<img src="img/pic.jpg" alt="好看的图片" />
+			</li>
+		</ul>
+	</div>
+	<div class="block">
+		<h2>最后一篇文章一级标题</h2>
+		<h4>最后一篇文章二级标题</h4>
+		<small>文章作者 发表时间</small>
+		<ol class="place" >
+			<li>排名一</li>
+			<li>排名二</li>
+			<li>排名三</li>
+		</ol>
+
+		<p>下面一个表格，这里</p>
+		<table class="tbale-box">
+				<thead>
+					<tr>
+						<th class="tbale-box-40">表头</th>
+						<th class="tbale-box-40">表头</th>
+						<th class="tbale-box-20">表头</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>表内容单单元</td>
+						<td>表内容单单元</td>
+						<td> <a href="">操作</a> </td>
+					</tr>
+					<tr>
+						<td>表内容单单元</td>
+						<td>表内容单单元</td>
+						<td><a href="">操作</a> </td>
+					</tr>
+					<tr>
+						<td>表内容单单元</td>
+						<td>表内容单单元</td>
+						<td><a href="">操作</a> </td>
+					</tr>
+					<tr>
+						<td>表内容单单元</td>
+						<td>表内容单单元</td>
+						<td> <a href="">操作</a> </td>
+					</tr>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td>总计</td>
+						<td  colspan="2">1000</td>
+					</tr>
+				</tfoot>
+			</table>
+	</div>
+	<div class="block">
+		<h2 class="quote">这里是以后是一个测蓝</h2>
+		<form action="">
+			<ul class="form-list">
+				<li>
+					<label for="email">请输入邮箱地址</label>
+					<div class="input-box"> 
+						<input type="email" id="email" />
+						<p class="descript">邮箱地址请按要求输入</p>
+					 </div>
+				</li>
+				<li>
+					<label for="password">请输入密码</label>
+					<div class="input-box"> 
+						<input type="password" id="password" />
+					 </div>
+				</li>
+				<li>
+					<label for="password2">请重复输入密码</label>
+					<div class="input-box"> 
+						<input type="password" id="password2" />
+						<p class="descript">密码请为6-16位英文数字</p>
+					 </div>
+				</li>
+				<li>
+					<label >性别</label>
+					<div class="input-box"> 
+						<input type="radio" id="male" name="sex"/>
+						<label for="male">男</label>
+						<input type="radio" id="female" name="sex"/>
+						<label for="female">女</label>
+					 </div>
+				</li>
+				<li>
+					<label for="city">城市</label>
+					<div class="input-box">
+						<select name="city" id="city">
+							<option value="beijing">北京</option>
+						</select>
+					</div>
+				</li>
+				<li>
+					<label >爱好</label>
+					<div class="input-box">
+						<input type="checkbox" id="spot" name="spot"/> 
+						<label for="spot">运动</label>
+						<input type="checkbox" id="art" name="art"/> 
+						<label for="art">艺术</label>
+						<input type="checkbox" id="science" name="science"/> 
+						<label for="science">科学</label>
+					</div>
+				</li>
+				<li>
+					<label for="description">个人描述</label>
+					<div class="input-box">
+						<textarea name="description" id="description" >这是一个。。。</textarea>
+					</div>
+				</li>
+			</ul>
+			<input type="submit" vaule="确认提交" class="form-button" />
+		</form>
+	</div>		
+	<div id="foot">
+		版权所有
+	</div>
+</body>
+</html>

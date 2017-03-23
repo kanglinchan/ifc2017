@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>task_11|mobile</title>
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/style_11.css" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+	<script>
+		;
+(function(win) {
+    var doc = win.document;
+    var docEl = doc.documentElement;
+    var tid;
+
+    function refreshRem() {
+        var width = docEl.getBoundingClientRect().width;
+        if (width > 540) { // 最大宽度
+            width = 540;
+        }
+        var rem = width / 10; // 将屏幕宽度分成10份， 1份为1rem
+        docEl.style.fontSize = rem + 'px';
+    }
+
+    win.addEventListener('resize', function() {
+        clearTimeout(tid);
+        tid = setTimeout(refreshRem, 300);
+    }, false);
+    win.addEventListener('pageshow', function(e) {
+        if (e.persisted) {
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+        }
+    }, false);
+
+    refreshRem();
+
+})(window);
+	</script>
+</head>
+<body>
+	<div id="header">
+		<div class="back">
+			返回
+		</div>
+		<p>这是标题</p>
+	</div>
+	<nav class="clearfix">
+		<a href="">导航</a>
+		<a class="active" href="">导航</a>
+		<a href="">导航</a>
+		<a href="">导航</a>
+		<a href="">导航</a>
+	</nav>
+	<div id="banner">
+		<ul class="clearfix">
+			<li>
+				<img src="img/task_11_banner.png" alt="" />
+			</li>
+			<li>
+				<img src="img/task_11_banner.png" alt="" />
+			</li>
+			<li>
+				<img src="img/task_11_banner.png" alt="" />
+			</li>
+		</ul>
+	</div>
+	<ul id="tags" class="clearfix">
+		<li>
+			<img src="img/task_11_tags.png" alt="" />
+			<p>标签一</p>
+		</li>
+		<li>
+			<img src="img/task_11_tags.png" alt="" />
+			<p>标签一</p>
+		</li>
+		<li>
+			<img src="img/task_11_tags.png" alt="" />
+			<p>标签一</p>
+		</li>
+		<li>
+			<img src="img/task_11_tags.png" alt="" />
+			<p>标签一</p>
+		</li>
+		<li>
+			<img src="img/task_11_tags.png" alt="" />
+			<p>标签一</p>
+		</li>
+	</ul>
+	<div id="column">
+		<a href="">
+			<img src="./img/task_11_column_1.png" alt="" />
+			<h4>分栏1</h4>
+			<p>分栏小标题</p>
+		</a>
+		<a href="">
+			<img src="./img/task_11_column_2.png" alt="" />
+			<h4>分栏2</h4>
+			<p>分栏小标题</p>
+		</a>
+		<a href="">
+			<img src="./img/task_11_column_3.png" alt="" />
+			<h4>分栏3</h4>
+			<p>分栏小标题</p>
+		</a>
+	</div>
+	<div class="module one">
+		<div class="title">
+			模块一
+		</div>
+		<div class="content">
+			<div class="aside">
+				<img src="./img/task_11_module.png" alt="" />
+				<img src="./img/task_11_module.png" alt="" />
+			</div>
+			<div class="section">
+				<div class="column">
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+				</div>
+				<div class="column">
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="module one">
+		<div class="title">
+			模块一
+		</div>
+		<div class="content">
+			<div class="aside">
+				<img src="./img/task_11_module.png" alt="" />
+				<img src="./img/task_11_module.png" alt="" />
+			</div>
+			<div class="section">
+				<div class="column">
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+				</div>
+				<div class="column">
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+					<a href="">这是文案</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul id="article-list">
+		<li class="single clearfix">
+			<img src="./img/task_11_article.png" alt="" />
+			<h3>这是文章标题字号是22的文章标题</h3>
+			<p>
+				<span>文章来源</span>
+				<span>六分钟钱</span>
+			</p>
+		</li>
+		<li class="single clearfix" >
+			<img src="./img/task_11_article.png" alt="" />
+			<div class="conteni">
+				<h3>这是一个文章标题</h3>
+				<p>
+					<span>文章来源</span>
+					<span>六分钟钱</span>
+				</p>
+			</div>
+		</li>
+		<li class="multiple">
+			<h3>这是文章标题字号是22的文章标题</h3>
+			<div class="pic">
+				<img src="./img/task_11_article.png" alt="" />
+				<img src="./img/task_11_article.png" alt="" />
+				<img src="./img/task_11_article.png" alt="" />
+			</div>
+			<p>
+				<span>文章来源</span>
+				<span>六分钟钱</span>
+			</p>
+		</li>
+	</ul>
+
+</body>
+</html>

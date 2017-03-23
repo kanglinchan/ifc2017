@@ -1,0 +1,236 @@
+.clearfix::after {
+  display: block;
+  height: 0;
+  content: "";
+  clear: both;
+}
+body {
+  background-color: #f5f5f5;
+}
+#header {
+  height: 1.125rem;
+  background-color: #91d4da;
+  color: white;
+}
+#header .back {
+  height: 0.5625rem;
+  padding: 0.28125rem;
+  float: left;
+  background-image: url("../img/task_11_back.png");
+  background-repeat: no-repeat;
+  background-size: 0.375rem 0.5625rem;
+  background-position: 0 center;
+  font-size: 0.4375rem;
+  line-height: 0.5625rem;
+  margin-left: 10px;
+  text-indent: 0.15625rem;
+}
+#header p {
+  margin: 0 1.875rem;
+  text-align: center;
+  font-size: 0.5625rem;
+  line-height: 1.125rem;
+}
+nav {
+  background-color: white;
+}
+nav a {
+  float: left;
+  display: block;
+  width: 20%;
+  height: 1.25rem;
+  font-size: 0.4375rem;
+  color: #777777;
+  line-height: 1.25rem;
+  text-align: center;
+  text-decoration: none;
+}
+nav .active::before {
+  content: "";
+  display: block;
+  width: 20%;
+  height: 0.125rem;
+  position: absolute;
+  margin-top: 1.125rem;
+  background-color: #91d4da;
+}
+#banner {
+  width: 100%;
+  overflow: hidden;
+}
+#banner ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  width: 300%;
+}
+#banner ul li {
+  width: 33.33333333%;
+  float: left;
+}
+#banner ul li img {
+  width: 100%;
+  vertical-align: top;
+}
+#tags {
+  list-style: none;
+  margin: 0;
+  padding: 0.46875rem 0 0.15625rem 0;
+  background-color: white;
+}
+#tags li {
+  width: 20%;
+  float: left;
+  text-align: center;
+}
+#tags li img {
+  width: 1.25rem;
+}
+#tags li p {
+  font-size: 0.5rem;
+  line-height: 0.5rem;
+  color: #777777;
+  margin: 0.375rem 0;
+}
+#column {
+  margin-top: 0.0625rem;
+  background-color: white;
+  display: box;
+  /* OLD - Android 4.4- */
+  display: -webkit-box;
+  /* OLD - iOS 6-, Safari 3.1-6 */
+  display: -moz-box;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between;
+  padding: 0.375rem 0 0.4375rem;
+}
+#column a {
+  display: block;
+  width: 33.33333333%;
+  justify-content: space-around;
+  text-decoration: none;
+  text-align: center;
+  border-right: 1px solid #e8e8e8;
+}
+#column a:last-child {
+  border-right: none;
+}
+#column a img {
+  width: 2.34375rem;
+}
+#column a h4 {
+  font-weight: normal;
+  color: #3c3c3c;
+  font-size: 0.4375rem;
+  margin: 0;
+  font-size: 0.625rem;
+}
+#column a p {
+  color: #777777;
+  font-size: 0.375rem;
+  line-height: 0.75rem;
+  margin: 0;
+}
+.module {
+  margin-top: 0.3125rem;
+  background-color: white;
+  padding: 0 0.3125rem 0.25rem 0.3125rem;
+}
+.module .title {
+  height: 1.25rem;
+  font-size: 0.5rem;
+  color: #777777;
+  margin: 0;
+  line-height: 1.25rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+.module .content {
+  padding-top: 0.375rem;
+  height: 4.9375rem;
+}
+.module .content .aside {
+  width: 2.5rem;
+  float: left;
+}
+.module .content .aside img {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+.module .content .section {
+  margin-left: 2.5rem;
+  font-size: 0.375rem;
+  display: flex;
+}
+.module .content .section .column {
+  width: 50%;
+  box-sizing: border-box;
+  padding-left: 0.25rem;
+  float: left;
+}
+.module .content .section .column a {
+  width: 100%;
+  display: block;
+  background-color: #f8f8f8;
+  margin-bottom: 0.25rem;
+  text-align: center;
+  line-height: 1.0625rem;
+  text-decoration: none;
+  color: #777777;
+}
+#article-list {
+  margin: 0.375rem 0 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+#article-list .single {
+  background-color: white;
+  padding: 0.25rem 0.3125rem;
+  margin: 0.0625rem;
+  position: relative;
+}
+#article-list .single img {
+  width: 2.8125rem;
+  float: left;
+}
+#article-list .single h3 {
+  margin: 0 0 0 3.125rem;
+  font-weight: normal;
+  line-height: 0.5625rem;
+  font-size: 0.4375rem;
+  color: #777777;
+}
+#article-list .single p {
+  margin: 0;
+  color: #c9c9c9;
+  font-size: 0.375rem;
+  position: absolute;
+  bottom: 0;
+  margin-left: 3.125rem;
+  margin-bottom: 0.3125rem;
+}
+#article-list .multiple {
+  background-color: white;
+  padding: 0.25rem 0.3125rem;
+  margin: 0.0625rem;
+}
+#article-list .multiple h3 {
+  font-weight: normal;
+  line-height: 0.5625rem;
+  font-size: 0.4375rem;
+  color: #777777;
+}
+#article-list .multiple .pic {
+  display: flex;
+  justify-content: space-between;
+}
+#article-list .multiple .pic img {
+  width: 31%;
+  height: 100%;
+}
+#article-list .multiple p {
+  color: #c9c9c9;
+  font-size: 0.375rem;
+}

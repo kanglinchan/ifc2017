@@ -1,0 +1,22 @@
+
+#wrap {
+    padding: 10px;
+    border: #333 1px solid;
+    margin: 10px;
+    cursor: pointer
+}
+
+#wrap div{
+    float: left;
+    padding: 5px;
+    box-sizing: border-box;
+    border: #333 1px solid;
+    margin: 5px;
+}
+
+div:after{
+    content: "";
+    display: block;
+    height: 0;
+    clear: both;
+}
