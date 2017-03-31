@@ -78,7 +78,7 @@
 
 [动态数据绑定（二）](https://kanglinchan.github.io/ifc2017/nuomi/task_3.html)
 
-[动态数据绑定（三）]
+[动态数据绑定（三）](https://kanglinchan.github.io/ifc2017/nuomi/task_4.html)
 
 [动态数据绑定（四）]
 
