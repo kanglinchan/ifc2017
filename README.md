@@ -80,7 +80,7 @@
 
 [动态数据绑定（三）](https://kanglinchan.github.io/ifc2017/nuomi/task_4.html)
 
-[动态数据绑定（四）]
+[动态数据绑定（四）](https://kanglinchan.github.io/ifc2017/nuomi/task_5.html)
 
 [自定义checkbox， radio样式](https://kanglinchan.github.io/ifc2017/nuomi/task_6.html)
 

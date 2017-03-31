@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>动态数据绑定（五）</title>
+	</head>
+	<body>
+		<div id="app">
+		    <p>姓名：{{user.name}}</p>
+		    <p>年龄：{{user.age}}</p>
+		</div>
+		
+		
+		
+		<div id="test">\"dddddd\"{{ddd}}</div>
+		
+		
+		
+		
+		<script type="text/javascript">
+			
+			function Oberserver( data ){
+				this.data = data;
+				this._each( data );
+			}
+			Oberserver.nodePath = [];
+			Oberserver.prototype = {
+				_each:function(data){
+					for( var key in data ){
+						if( data.hasOwnProperty(key) ){
+							var value = data[key];
+							if( typeof value === "object" ){
+								new Oberserver( value );
+							}
+							this._listener(key, value);
+						}
+					}
+				},
+				_listener:function(key, value){
+					//var context = this;
+					Object.defineProperty( this.data, key, {
+						enumerable :true,
+						configurable:true,
+						get:function(){
+							Oberserver.nodePath.push( key );
+							return value;
+						},
+						set:function( newValue ){
+							if( value !== newValue ){
+								
+								value = (typeof newValue === "object") ? (new Oberserver( newValue )).data : newValue;
+								var path = Oberserver.nodePath.concat( key ).join('.');
+								Oberserver.nodePath = []; //清空
+								Event.emit( "_ROOT_."+path, path, newValue );
+							}
+						}
+					} )
+				},
+				$watch:function( field, callback ){
+					Event.on( field, callback ); 
+				}
+			}
+			
+			
+			var Event = (function(){
+				var callbackCache = {};
+				var _on = function(field, callback){
+					if( typeof( callbackCache[field] ) =="undefined" ){
+						callbackCache[field] = []
+					}
+					callbackCache[field].push( callback );
+				};
+				var _emit = function( path ){
+					while( path ){
+						if(typeof callbackCache[path] !== "undefined"){
+							var fnList = callbackCache[path];
+							for(var i=0; i < fnList.length; i++ ){
+								fnList[i].apply( null, Array.prototype.slice.call( arguments,1 ) );
+							}
+						}
+						path = path.replace( /\.?([^.]+)$/,"");
+					}
+				}
+				return{
+					on:_on,
+					emit: _emit
+				}
+			})()
+			
+			function Vue(options){
+				if( typeof options['el'] === "undefined" ){
+					throw new Error(" el 参数错误 ");
+				}
+				this.el = document.querySelector(options['el']);
+				//this.el.outerHTML = this.templateCompile(this.el.outerHTML, options['data'] );
+				this._change( this.el.outerHTML, options['data'] )
+				var _app = new Oberserver( options['data']  );
+				_app.$watch("_ROOT_",function(key, newData){
+					console.dir(newData);
+					alert(key)
+				})
+				return _app;
+			}
+			Vue.prototype = {
+				templateCompile:function(temp, data){
+					var temp = temp.replace( /[\t\n\r]/g,"" )
+					.replace(/{{\s?([\w.]+)\s?}}/g,"\'\, typeof( data.$1 ) !==\"undefined\"?data.$1:\"\"\,\'")
+					.replace(/^/,"\'")
+					.replace(/$/,"\'");
+					return eval("["+temp+"].join('')");
+				},
+				_change:function(temp, data){
+					var nodeName = temp.match(/\s?{{[\w.]+}}\s?/g);
+					console.dir( nodeName )
+				}
+			}
+			
+			
+			let app = new Vue({
+			  el: '#app',
+			  data: {
+			    user: {
+			      name: 'youngwind',
+			      age: 25
+			    },
+			    school: 'bupt',
+			    major: 'computer'
+			  }
+			});
+			
+	
+			
+//			var test = document.getElementById("test");
+//			
+//			var textNode = document.createTextNode("111111111");
+//			///test.outerHTML.replace(/{{\s?[^{}]+?\s?/,"fffffffff");
+//			test.appendChild( textNode );
+//			
+			
+			
+			
+			
+			
+		</script>
+		
+	</body>
+</html>
