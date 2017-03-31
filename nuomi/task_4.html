@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		<script type="text/javascript">
+			
+			function Oberserver( data ){
+				this.data = data;
+				this._each( data );
+			}
+			Oberserver.nodePath = [];
+			Oberserver.prototype = {
+				_each:function(data){
+					for( var key in data ){
+						if( data.hasOwnProperty(key) ){
+							var value = data[key];
+							if( typeof value === "object" ){
+								new Oberserver( value );
+							}
+							this._listener(key, value);
+						}
+					}
+				},
+				_listener:function(key, value){
+					//var context = this;
+					Object.defineProperty( this.data, key, {
+						enumerable :true,
+						configurable:true,
+						get:function(){
+							Oberserver.nodePath.push( key );
+							return value;
+						},
+						set:function( newValue ){
+							if( value !== newValue ){
+								
+								value = (typeof newValue === "object") ? (new Oberserver( newValue )).data : newValue;
+								var path = Oberserver.nodePath.concat( key ).join('.');
+								Oberserver.nodePath = []; //清空
+								Event.emit( path, newValue );
+							}
+						}
+					} )
+				},
+				$watch:function( field, callback ){
+					Event.on( field, callback ); 
+				}
+			}
+			
+			
+			var Event = (function(){
+				var callbackCache = {};
+				var _on = function(field, callback){
+					if( typeof( callbackCache[field] ) =="undefined" ){
+						callbackCache[field] = []
+					}
+					callbackCache[field].push( callback );
+				};
+				var _emit = function( path ){
+					while( path ){
+						if(typeof callbackCache[path] !== "undefined"){
+							var fnList = callbackCache[path];
+							for(var i=0; i < fnList.length; i++ ){
+								fnList[i].apply( null, Array.prototype.slice.call( arguments,1 ) );
+							}
+						}
+						path = path.replace( /\.?([^.]+)$/,"");
+					}
+				}
+				
+				return{
+					on:_on,
+					emit: _emit
+				}
+			})()
+			
+			
+//			Event.on("222222222");
+//			Event.emit();
+			
+			
+			var app = new Oberserver( {
+				name:{
+					first:"start",
+					last:"end"
+				},
+				"a":{
+					b:{
+						c:{
+							d:34
+						}
+					}
+				}
+			} )
+			
+			app.$watch("a.b",function(newName){
+				console.log("path - a.b ："+ newName);
+			})
+			app.$watch("a",function(newName){
+				console.log("path - a ："+ newName);
+			})
+			app.$watch("a.b.c",function(newName){
+				console.log("path - a.b.c ："+ newName);
+			})
+			app.$watch("a.b.c.d",function(newName){
+				console.log("path - a.b.c.d ："+ newName);
+			})
+			
+			
+			app.$watch("name",function(newName){
+				console.log("a.b ："+ newName);
+			})
+			
+			app.data.name.last = "hello";
+			app.data.a.b.c.d = "11111111111111111";
+		</script>
+		
+		
+	</body>
+</html>
