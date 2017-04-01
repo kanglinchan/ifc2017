@@ -12,7 +12,7 @@
 		
 		
 		
-		<div id="test">\"dddddd\"{{ddd}}</div>
+		<div id="test">dddddd{{ddd}}</div>
 		
 		
 		
@@ -110,8 +110,8 @@
 					return eval("["+temp+"].join('')");
 				},
 				_change:function(temp, data){
-					var nodeName = temp.match(/\s?{{[\w.]+}}\s?/g);
-					console.dir( nodeName )
+					//var nodeName = temp.match(/\s?{{[\w.]+}}\s?/g);
+					//console.dir( nodeName )
 				}
 			}
 			
@@ -130,11 +130,16 @@
 			
 	
 			
-//			var test = document.getElementById("test");
-//			
-//			var textNode = document.createTextNode("111111111");
-//			///test.outerHTML.replace(/{{\s?[^{}]+?\s?/,"fffffffff");
-//			test.appendChild( textNode );
+			var test = document.getElementById("test");
+			
+			var textNode = document.createTextNode("111111111");
+			test.appendChild( textNode );
+			
+			test.outerHTML = test.outerHTML.replace(/\s?{{([\w.]+?)}}\s?/g, "$1");
+			test.childNodes.forEach(function(el){
+				console.dir( el.nodeValue )
+			})
+			
 //			
 			
 			

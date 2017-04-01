@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>正则表达式之入门</title>
+	</head>
+	<body>
+		
+		
+		<script type="text/javascript">
+			
+			
+			var 
+			phone1 = 15015056750,
+			phone2 = 1222,
+			phone3 = 1111111111;
+			
+			var pattern = new RegExp("^1[135689]\\d{9}$");
+			console.dir( "expresion:" + pattern )
+			console.dir( pattern.test( phone1 ) );
+			console.dir( pattern.test( phone2 ) )
+			console.dir( pattern.test( phone3 ) )
+			
+			
+			/*相连相同*/
+			var str1	=	"foo foo bar";    
+			var str2	=	"foo bar foo";     
+			var str3	=	"foo barbar bar";
+			
+			var pattern2 = new RegExp("\\b(\\w+?)\\b\\s+\\1");
+			console.dir( "expresion:" + pattern2 )
+			console.dir( pattern2.test(str1) )
+			console.dir( pattern2.test(str2) )
+			console.dir( pattern2.test(str3) )
+			
+			
+		</script>
+		
+	</body>
+</html>
